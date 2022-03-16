@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhereToPark</title>
+
+    <style>/*container to center map*/
+        #container {
+            height: 100%;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+        }
+        #map {
+            height: 100vh;
+            width: 80vw;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    
+<div id = "container">
+    <div id = "map"></div>
+</div>
+
+<script>
+    function initMap() {
+        let mapOptions = {center: {lat: 1.3483, lng: 103.6831},
+            zoom: 15}
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions)
+// Uncomment to add marker at NTU lat and longtitude
+        // marker1 = new google.maps.Marker({
+        //     map,
+        //     position: {lat: 1.3483, lng:103.6831},
+        //     animation: null,
+        //     optimized: false,
+        //     title: "name of carpark"
+        // });
+        // // Create an info window to share between markers.
+        // const infoWindow = new google.maps.InfoWindow({
+        //     content:"Carpark name",
+        // })
+        
+        // marker1.addListener("click", () =>{
+        //     infoWindow.open(map, marker1);
+        // });
+        
+}
+    // function toggleBounce(){
+    //     if(marker.getAnimation() !==null){
+    //         marker.setAnimation(null);
+    //     }else{
+    //         marker.setAnimation(google.maps.Animation.BOUNCE);
+    //     }
+    // }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwokWD5MBQ1W8wdkjlj5fE7sjJNDXBRBs&callback=initMap"></script>
+    
+</body>
+</html>
