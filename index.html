@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/startup.css">
+    <script src='./js/startup.js'></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwokWD5MBQ1W8wdkjlj5fE7sjJNDXBRBs&callback=initAutocomplete&libraries=places" async defer></script>
     <title>WhereToPark</title>
 </head>
 <body>
@@ -19,7 +21,7 @@
     <div class="content">
         <img src="./img/wheretoparklogo.PNG" alt="WhereToPark Logo">
         <div class="specific-searching">
-            <input type="text">
+            <input id="input">
         </div>
         <div class="buttons">
             <div class="near-me"><a href="./mapPage.html">Find carparks near you!</a></div>
