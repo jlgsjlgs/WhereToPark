@@ -65,9 +65,21 @@
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
         var input = document.getElementById('search_term');
         const autocomplete = new google.maps.places.Autocomplete(input);
-}
+
+        // Linking startuppage search result to mappage
+        var tempitem = sessionStorage.getItem("locationmarker");
+    
+        if (tempitem != null) {
+            sessionStorage.clear();
+            var searchresult = JSON.parse(tempitem);
+            map.panTo(new google.maps.Marker({
+                position: searchresult.geometry.location,
+                title: searchresult.name,
+                map: map
+            }).position);
+        }
+    }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwokWD5MBQ1W8wdkjlj5fE7sjJNDXBRBs&libraries=places&callback=initMap"></script>
-
 </body>
 </html>
