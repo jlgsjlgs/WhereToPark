@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="./css/mappage.css">
     <link rel="stylesheet" href="./css/sidebar.css">
     <link rel="stylesheet" href="./css/navbar.css">
+    <script src='./js/GovAPI.js'></script>
+
 
     
     <title>Where to park</title>
@@ -40,7 +42,7 @@
             </h2>
             <h2 class="getDirections" href="#">Get Directions</h2>
             <h2 href="#"><img src="./img/location_icon.svg" alt="location" height="30px" style="padding-right: 5px;">
-            school of computer Science and engineering SCSeEEEEEEEEE</h2>
+                <span id="add"></span></h2>
             <h2 href="#">Rates:</h2>
             <hr>
             <h2 href="#">IMPORT RATES FRM SOME API</h2>
@@ -55,17 +57,18 @@
         </div>
 
 <script>
-    let autocomplete;
-        function initAutocomplete(){
-            
-        }
     function initMap() {
         let mapOptions = {center: {lat: 1.3483, lng: 103.6831},
             zoom: 15};
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
         var input = document.getElementById('search_term');
-        const autocomplete = new google.maps.places.Autocomplete(input);
 
+        const autocomplete = new google.maps.places.Autocomplete(input,{
+        types: ['establishment'],
+        componentRestrictions: {'country': ['SG']},
+        fields: ['place_id', 'geometry', 'name']
+    });
+}
         // Linking startuppage search result to mappage
         var tempitem = sessionStorage.getItem("locationmarker");
     
