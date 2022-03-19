@@ -11,8 +11,8 @@ function initAutocomplete() {
 }
 
 function specificSearching() {
-    var searchresult = document.getElementById("input").value;
-    localStorage.setItem("locationmarker", searchresult);
+    var place = autocomplete.getPlace();
+    sessionStorage.setItem("locationmarker", JSON.stringify(place));
     window.location.href = './mappage.html';
 }
 
