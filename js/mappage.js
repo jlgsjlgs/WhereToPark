@@ -21,5 +21,15 @@ function initMap() {
                 title: searchresult.name,
                 map: map
             }).position);
+        } else {
+            tempitem = sessionStorage.getItem("userlocation");
+            if (tempitem != null){
+                sessionStorage.clear();
+                map.panTo(new google.maps.Marker({
+                    position: tempitem,
+                    title: 'User Location',
+                    map: map
+                }).position);
+            }
         }
     }
