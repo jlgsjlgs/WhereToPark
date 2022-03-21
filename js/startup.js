@@ -26,7 +26,7 @@ function getLocation() {
 }
 
 function storeLocation(position) {
-    sessionStorage.setItem("userlocation", {lat: position.coords.latitude, lng: position.coords.longitude})
+    sessionStorage.setItem("userlocation", {lat: position.coords.latitude, lng: position.coords.longitude});
 }
 
 function showError() {
