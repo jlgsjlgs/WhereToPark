@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="./css/sidebar.css">
     <link rel="stylesheet" href="./css/navbar.css">
     <script src='./js/GovAPI.js'></script>
-
-
+    <script src='./js/mappage.js'></script>
+    <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwokWD5MBQ1W8wdkjlj5fE7sjJNDXBRBs&libraries=places&callback=initMap" async defer></script>
     
     <title>Where to park</title>
 </head>
@@ -55,36 +55,5 @@
             <h2 href="#">IMPORT RATES FRM SOME API</h2>
             <h2 href="#">IMPORT RATES FRM SOME API</h2>
         </div>
-
-<script>
-    let autocomplete;
-
-    function initMap() {
-        let mapOptions = {center: {lat: 1.3483, lng: 103.6831},
-            zoom: 15};
-        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-        var input = document.getElementById('search_term');
-
-        const autocomplete = new google.maps.places.Autocomplete(input,{
-        types: ['establishment'],
-        componentRestrictions: {'country': ['SG']},
-        fields: ['place_id', 'geometry', 'name']
-        });
-    
-        // Linking startuppage search result to mappage
-        var tempitem = sessionStorage.getItem("locationmarker");
-    
-        if (tempitem != null) {
-            sessionStorage.clear();
-            var searchresult = JSON.parse(tempitem);
-            map.panTo(new google.maps.Marker({
-                position: searchresult.geometry.location,
-                title: searchresult.name,
-                map: map
-            }).position);
-        }
-    }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwokWD5MBQ1W8wdkjlj5fE7sjJNDXBRBs&libraries=places&callback=initMap"></script>
-</body>
+</body> 
 </html>
