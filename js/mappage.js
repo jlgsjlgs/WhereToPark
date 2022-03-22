@@ -3,6 +3,7 @@ getCarparkLocations(); //STARTS EVERYTHING IN MAPPAGE.JS
 const api_govforgmap = 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&limit=5000';
 
 var resultLatLng = new Array();
+var resultCarparkName = new Array();
 
 function getCarparkLocations(){
     var request = new XMLHttpRequest();
@@ -13,7 +14,9 @@ function getCarparkLocations(){
         var cv = new SVY21();
         for (let i=0; i<ggdata.result.records.length; i++){
             let temp = cv.computeLatLon(ggdata.result.records[i].y_coord, ggdata.result.records[i].x_coord);
+            let tempName = ggdata.result.records[i].car_park_no;
             resultLatLng.push(temp);
+            resultCarparkName.push(tempName);
         }
         initMap();
     }
@@ -45,20 +48,14 @@ function initMap() {
         for (let i = 0; i < resultLatLng.length; i++) {
             const marker = new google.maps.Marker({
               position: new google.maps.LatLng(resultLatLng[i].lat, resultLatLng[i].lon),
+              title: resultCarparkName[i],
               icon: icons["parking"].icon,
               map: map,
             });
         }
-        console.log(resultLatLng);
-        new google.maps.Marker({
-            position: new google.maps.LatLng(resultLatLng[0].lat, resultLatLng[0].lon),
-            icon: icons["parking"].icon,
-            map: map,
-        });
 
         // Linking startuppage search result to mappage
         var tempitem = sessionStorage.getItem("locationmarker");
-        console.log(tempitem);
 
         if (tempitem != null) {
             sessionStorage.clear();
