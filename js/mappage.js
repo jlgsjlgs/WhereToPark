@@ -9,7 +9,7 @@ function getCarparkLocations(){
     var request = new XMLHttpRequest();
     request.open('GET', 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&limit=5000', true);
     request.onload = function() {
-        var ggdata = JSON.parse(this.response);
+        ggdata = JSON.parse(this.response);
 
         var cv = new SVY21();
         for (let i=0; i<ggdata.result.records.length; i++){
@@ -26,6 +26,7 @@ function getCarparkLocations(){
 let autocomplete;
 let map;
 function initMap() {
+    
         let mapOptions = {center: {lat: 1.3483, lng: 103.6831},
             zoom: 15};
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -36,6 +37,18 @@ function initMap() {
         componentRestrictions: {'country': ['SG']},
         fields: ['place_id', 'geometry', 'name']
         });
+
+        var tempitem = sessionStorage.getItem("locationmarker");
+
+        if (tempitem != null) {
+            sessionStorage.clear();
+            var searchresult = JSON.parse(tempitem);
+            map.panTo(new google.maps.Marker({
+                position: searchresult.geometry.location,
+                title: searchresult.name,
+                map: map
+            }).position);
+        }
 
         // Plotting custom markers for all the carparks
         const iconBase = "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
@@ -52,20 +65,70 @@ function initMap() {
               icon: icons["parking"].icon,
               map: map,
             });
+            marker.addListener("click", () => {
+                let selectedcarparkNum = marker.getTitle();  // When you click on a marker, it retrieves the label (carpark no.)
+                for (let i = 0; i < ggdata.result.records.length; i++){  // checks against api
+                    if (selectedcarparkNum == ggdata.result.records[i].car_park_no){
+                        foundindex = i;
+                    }
+                }
+                // map.setCenter(marker.getPosition());
+                // Current APi
+                document.getElementById('carparkDisplays').style.display="none"; //display
+                document.getElementById('sidebarnext').style.display="block"; //hide
+
+                let displayAddress = ggdata.result.records[foundindex].address;
+                let displayCPNum = ggdata.result.records[foundindex].car_park_no;
+                let displayCPType = ggdata.result.records[foundindex].car_park_type;
+                let displayNightParking = ggdata.result.records[foundindex].night_parking;
+                let displayGantryHeight  =  ggdata.result.records[foundindex].gantry_height;
+                let displayCPBasement = ggdata.result.records[foundindex].car_park_basement;
+                // Outputting to console
+                console.log("Address:", displayAddress);
+                console.log("Car Park No.:", displayCPNum);
+                console.log("Car Park Type:", displayCPType);
+                console.log("Night Parking Available:", displayNightParking);
+                console.log("Gantry Height:", displayGantryHeight, "m");
+                console.log("Is there a basement level:", displayCPBasement);
+                // Changing the text on sidebar
+                document.getElementById('add').textContent = displayAddress;
+                // document.getElementById('basement').textContent = displayCPBasement;
+                // // document.getElementById('deck').textContent = car_park_decks;
+                // document.getElementById('num').textContent = displayCPNum;
+                // document.getElementById('type').textContent = displayCPType;
+                // // document.getElementById('free').textContent = free_parking;
+                // document.getElementById('height').textContent = displayGantryHeight;
+                // document.getElementById('night').textContent = displayNightParking;
+                // // document.getElementById('full').textContent = _full_count;
+            });
         }
+        // module.exports = {displayAddress, displayCPNum, displayCPType, displayNightParking, displayGantryHeight, displayCPBasement};
+
 
         // Linking startuppage search result to mappage
-        var tempitem = sessionStorage.getItem("locationmarker");
 
-        if (tempitem != null) {
-            sessionStorage.clear();
-            var searchresult = JSON.parse(tempitem);
-            map.panTo(new google.maps.Marker({
-                position: searchresult.geometry.location,
-                title: searchresult.name,
-                map: map
-            }).position);
-        } 
+        // marker.addListener("click", () => {
+        //     console.log("Click works!")
+        //     let selectedcarparkNum = marker.getTitle();  // When you click on a marker, it retrieves the label (carpark no.)
+        //     for (let i = 0; i < ggdata.result.records.length; i++){  // checks against api
+        //         if (selectedcarparkNum == ggdata.result.records[i].car_park_no){
+        //             let foundindex = i;
+        //         }
+        //     }
+        //     // Current APi
+        //     let displayAddress = ggdata.result.records[foundindex].address;
+        //     let displayCPNum = ggdata.result.records[foundindex].car_park_no;
+        //     let displayCPType = ggdata.result.records[foundindex].car_park_type;
+        //     let displayNightParking = ggdata.result.records[foundindex].night_parking;
+        //     let displayGantryHeight  =  ggdata.result.records[foundindex].gantry_height;
+        //     let displayCPBasement = ggdata.result.records[foundindex].car_park_basement;
+        //     console.log(displayAddress);
+        //     console.log(displayCPNum);
+        //     console.log(displayCPType);
+        //     console.log(displayNightParking);
+        //     console.log(displayGantryHeight);
+        //     console.log(displayCPBasement);
+        // });
 }
 
 //Convert X-Y Coordinates over to LatLng for Google Maps
