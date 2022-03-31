@@ -1,7 +1,18 @@
+.body { 
+  margin:0;
+  font-family:sans-serif;
+  display: flex;
+  flex-direction:column;
+  min-width:600px;
+  overflow:scroll;
+}
+
 .container{
     width: 360px;
     padding: 10%;
     margin: auto;
+    /* border:1px solid black; */
+    position: relative;
   }
   
   .form{
@@ -56,6 +67,7 @@
     display:none;
   }
 
+  /*Here*/
   .login-page-icon img{
     /* border: 1px solid black; */
     display: flex;
@@ -64,3 +76,43 @@
     height:50%;
     width:50%;
   }
+
+  a {
+    text-decoration: none;
+    color:rgb(58, 55, 55);
+  }
+
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    background-color: aliceblue;
+    padding-bottom:10px;
+}
+
+.header .logo {
+    padding-left:18px;
+    font-size:30px;
+}
+
+.header .right-header {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap: 10px;
+}
+
+.header .right-header img {
+    max-width:30px;
+    padding-top:8px;
+}
+
+.header .right-header .login {
+    padding-right: 18px;
+    font-size:20px;
+}
+
+img {
+    max-width:900px;
+}
+
