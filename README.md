@@ -8,7 +8,6 @@ TODO
 - Filter function for sidebar
 - Compare function for sidebar
 - Calculate price for sidebar
-- Remove Gmap search bar from Mappage
 - Change top right depending on Guest or User (E.g. Sign In vs Hello Guest & Sign out)
 
 - Do test cases
