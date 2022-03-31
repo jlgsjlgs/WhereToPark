@@ -32,12 +32,6 @@ function initMap() {
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
         var input = document.getElementById('search_term');
 
-        autocomplete = new google.maps.places.Autocomplete(input,{
-        types: ['establishment'],
-        componentRestrictions: {'country': ['SG']},
-        fields: ['place_id', 'geometry', 'name']
-        });
-
         var tempitem = sessionStorage.getItem("locationmarker");
 
         if (tempitem != null) {
