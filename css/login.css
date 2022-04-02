@@ -110,6 +110,7 @@
     align-items: center;
     background-color: aliceblue;
     padding-bottom:10px;
+    font-family:sans-serif;
 }
 
 .header .logo {
