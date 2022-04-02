@@ -60,11 +60,31 @@
   
   .form .message a{
     color: #4CAF50;
-    text-decoration: none;
+    text-decoration: underline;
+  }
+
+  .form .forgot-message{
+    display: flex;
+    justify-content: space-around;
+  }
+
+  #forgot-message-pwd{
+    padding-right: 9%;
   }
   
+  .form .forgot-message a{
+    color: #6495ED;   
+    font-size: 12px;
+    text-decoration: underline;
+  }
+
+
+
   .form .register-form{
     display:none;
+    font-size:12px;
+    margin: 15px 0 0;
+
   }
 
   /*Here*/
@@ -76,6 +96,8 @@
     height:50%;
     width:50%;
   }
+
+  /* header format */
 
   a {
     text-decoration: none;

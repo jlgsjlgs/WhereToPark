@@ -1,0 +1,101 @@
+.container{
+    width: 360px;
+    padding: 10%;
+    margin: auto;
+    border:1px solid black;
+    position: relative;
+  }
+
+p{
+  color:black;
+}
+
+
+.login-page-icon img{
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    height:20%;
+    width:50%;
+}
+
+
+.rangeslider{
+    width: 30%;
+    padding-left: 12%;
+    padding-right:10%;
+}
+
+
+.vehTypeDiv{
+  padding-right: 15%;
+}
+
+
+.first, .second, .third, .fourth{
+  /* border: 1px solid black; */
+  margin:20px;
+  width: 100%;
+  display:flex;
+  justify-content: space-between;
+
+}
+
+
+.selectRad, .selectType, .selectNightP, .vehType{
+  color: black;
+  font-weight: bold;
+
+}
+
+
+.submit{
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline:0;
+  background: #4CAF50;
+  width: 40%;
+  padding:15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+  background:#43A047;
+  margin-left: 115px;
+}
+
+
+
+.header {
+  display:flex;
+  justify-content:space-between;
+  align-items: center;
+  background-color: aliceblue;
+  padding-bottom:10px;
+}
+
+.header .logo {
+  padding-left:18px;
+  font-size:30px;
+}
+
+.header .right-header {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap: 10px;
+}
+
+.header .right-header img {
+  max-width:30px;
+  padding-top:8px;
+}
+
+.header .right-header .login {
+  padding-right: 18px;
+  font-size:20px;
+}
+
+img {
+  max-width:900px;
+}
