@@ -11,10 +11,6 @@
 
 <body> 
 
-  <!-- <div class="home-page-logo">
-    <a href="./index.html"><img src="./img/wheretoparklogo.PNG" alt="WhereToPark Logo"></a>
-  </div> -->
-
   <div class="header">
     <div class="logo"><a href="./index.html">WhereToPark</a></div>
     <div class="right-header">
@@ -22,8 +18,6 @@
         <div class="login"><a href="./loginpage.html">Sign In</a></div>
     </div>
   </div>  
-
- 
 
 
     <div class="container">
@@ -34,6 +28,7 @@
         <div class= "form">
 
           <form class = "register-form" method="post" action="php/user_details.php">
+            <input type = "text" placeholder = "Name" name="myname" required>
             <input type = "text" placeholder = "Username" name="uname" required>
             <input type = "text" placeholder="Email" name="email" required>
             <input type = "text" placeholder = "Password" name="pwd" required>
@@ -47,6 +42,16 @@
             <input type = "text" placeholder = "Password"name="pwd" required>
             <button> Login </button>
             <p class ="message"> Not Registered? <a href ="#"> Register </p>
+
+              <div class="forgot-message">
+                <p> <a href="./forgetuname.html">Forgot Username</a></p>
+                <p id="forgot-message-pwd">  <a href="./forgetpwd.html">Forgot Password</a></p>
+              </div>
+
+              <!-- <p class="forgot-message"> <a href="./index.html">Forgot Username</a></p>
+              <p class="forgot-message"> <a href="./index.html">Forgot Password</a></p> -->
+
+
           </form>
 
         <script src = 'https://code.jquery.com/jquery-3.2.1.min.js'>

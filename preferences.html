@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/preferences.css" />
+    <script src="./js/preferences.js" defer></script>
+    <title>Profile</title>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo"><a href="./index.html">WhereToPark</a></div>
+    <div class="right-header">
+        <span class="icon-image"><img src="./img/usericon.png" alt="User login icon"></span>
+        <div class="login"><a href="./loginpage.html">Sign In</a></div>
+    </div>
+  </div>
+
+<div class="container">
+
+      <div class="login-page-icon"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlKi-dTKsqe-aBxkOJnNmIGZYcXM0zQDKQOKZmqjDfINherAww6IGqvB8k44XwNhYTSus&usqp=CAU" alt="login icon"></div>
+
+      <div class="first" >
+          <div class="selectRad">Select preferred radius </div>
+          <div class="rangeslider">
+            <input type="range" min="0" max="5" value="10"
+                            class="myslider" id="sliderRange">
+            <p>Radius: <span id="demo"></span></p>
+            <script>
+
+                var rangeslider = document.getElementById("sliderRange");
+                var output = document.getElementById("demo");
+                output.innerHTML = rangeslider.value + " km";
+
+                rangeslider.oninput = function() {
+                output.innerHTML = this.value + " km";
+              }
+              </script>
+          </div>
+      </div>
+
+      <div class="second">
+          <div class="selectType">Select preferred carpark type</div>
+
+          <!-- <form action="/action_page.php"> -->
+          <div class="selectTypeDiv">
+                <!-- <label for="cType">Choose a carpark type:</label> -->
+                <select name="cType" id="cType">
+                  <option value="Surface">Surface Carpark</option>
+                  <option value="MultiStorey">Multi Storey Carpark</option>
+                </select>
+                <br><br>
+                <!-- <input type="submit" value="Submit"> -->
+              <!-- </form> -->
+          </div>
+      </div>
+
+      <div class="third">
+            <div class="selectNightP">Select night parking preference</div>
+            <!-- <form action="/action_page.php"> -->
+            <div class="selectNightPDiv">
+                <input type="checkbox" id="Yes" name="Yes" value="Yes">
+                <label for="vehicle1"> Night Parking</label><br>
+                <input type="checkbox" id="No" name="No" value="No">
+                <label for="vehicle2"> No Night Parking</label><br>
+                <!-- <input type="submit" value="Submit"> -->
+                <!-- </form> -->
+          </div>
+      </div>
+
+      <div class="fourth">
+          <div class="vehType">Select vehicle type</div>
+          <!-- <form action="/action_page.php"> -->
+          <div class="vehTypeDiv">
+                <!-- <label for="vType">Choose a Vehicle Type:</label> -->
+                <select name="vType" id="vType">
+                  <option value="Car">Car</option>
+                  <option value="Motorbike">Motorbike</option>
+                  <option value="Lorry">Lorry</option>
+                </select>
+                <br><br>
+                <!-- <input type="submit" value="Submit"> -->
+              <!-- </form> -->
+        </div>
+      </div>
+
+      <div class="submit-div">
+        <button class="submit" onclick="savePreference()"> Save </button>
+        <script>
+            function savePreference(){
+                //routes back to
+                location.href="profile.html";
+                //display success/error message
+                // to save preference and return if success or not
+                let success = true;
+                if(success)
+                    alert("Your Preferences has been successfully updated");
+                else alert("Preference update is unsuccessful, please try again")
+            }
+        </script>
+      </div>
+
+      
+
+    
+
+
+</div>
+</body>
+</html>
