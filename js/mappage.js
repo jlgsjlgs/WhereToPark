@@ -125,21 +125,21 @@ function initMap() {
                         document.querySelector('.compare-btn').style.display='none';
                         document.querySelector('.add-section').style.display='none';
                         if(document.getElementById('checkbox1').checked){
+                            add1 = displayAddress;
                             document.querySelector('.compare-btn').style.display='block';
                             document.querySelector('.add-section').style.display='block';
+                            document.getElementById('compare-btn').addEventListener('click', function (){
+                                document.querySelector('.bg-modal').style.display="flex";
+                                document.getElementById('add2').textContent = displayAddress;
+                            });
+                            document.getElementById('btn-modal-close').addEventListener('click', function(){
+                                document.querySelector('.bg-modal').style.display='none';
+                            });
                         };
                     });
                 } else{
-
-                    document.getElementById('compare-btn').addEventListener('click', function (){
-                        document.querySelector('.bg-modal').style.display="flex";
-                        document.getElementById('add2').textContent = displayAddress;
-                    });
                     document.getElementById('add3').textContent = displayAddress;
                     document.getElementById('add4').textContent = displayAddress;
-                    document.getElementById('btn-modal-close').addEventListener('click', function(){
-                        document.querySelector('.bg-modal').style.display='none';
-                    });
                 }
             });
         }
