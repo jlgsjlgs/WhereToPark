@@ -1,6 +1,4 @@
 //javascript for carpark card displays (incl govAPIRef code)
-
-myStorage = window.localStorage;
 const app = document.getElementById('carparkDisplays')
 
 const container = document.createElement('div')
@@ -67,7 +65,7 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
         if(removerepeats.get(cNum)!=null)
           continue;
         removerepeats.set(data.result.records[j].car_park_no,j)
-        localStorage.setItem(data.result.records[j].car_park_no,j);
+        //localStorage.setItem(data.result.records[j].car_park_no,j);
         let index = hMap.get(cNum); //index is the value in the hMap
         if(index==null)
           continue;
@@ -81,8 +79,8 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
         card.setAttribute('class', 'card')
         card.setAttribute('id', cNum)
         container.appendChild(card)
-
-        card.addEventListener("click",function(){ clickHandler(card.id); });
+        
+        card.addEventListener("click",function(){ clickHandler(card.id,j); });
 
          //creating 3diff divs-header, body, footer + the lines in between
          const header = document.createElement('div');
@@ -171,26 +169,44 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
 
         }
       
-        function clickHandler(cnum){
+        function clickHandler(cnum,j1){
           var i=hMap.get(cnum)
+          var rootsdnbar= document.getElementById('sidebarnext');
           document.getElementById('carparkDisplays').style.display = "none";
           document.getElementById('sidebarnext').style.display = "block";
-          const slots=document.getElementById('slots')
-          const payy=document.getElementById('payy')
-          slots.textContent=data1.items[0].carpark_data[i].carpark_info[0].lots_available
-          let index1= centralcpark.get(cnum);
+          //const slots=document.getElementById('slots')
+          //const payy=document.getElementById('payy')
+                   //slots.textContent=data1.items[0].carpark_data[i].carpark_info[0].lots_available+" slots"
+          const sdnHead = document.createElement('div');
+  
+          
+
+
+        let index1= centralcpark.get(cnum);
+
+        document.getElementById('sdCNum').textContent=cnum;
+        console.log("test");
+
         if(index1==null)
         {
-         payy.textContent="Rates: "+"$0.60 / 30mins"
+          document.getElementsByClassName('sdCPrice')[0].textContent="$0.60\r\n30mins";
         }
         else
         {
-         payy.textContent="Rates: "+`$1.20 / 30mins (Mon to Sat 7am to 5pm)
-                          $0.60 / 30mins (Other hours)`;
+          document.getElementsByClassName('cdCPrice')[0].textContent=  `$1.20\r\n30mins (Mon to Sat 7am to 5pm)
+          $0.60\r\n30mins (Other hours)`;                      
         }
-        document.getElementById('cparknumm').textContent=cnum;
+        // let i = hMap.get(cnum);
+        // Changing the text on the sidebar
+        document.getElementById('sdnAddt').textContent = data.result.records[j1].address;
+        document.getElementById('sdnBasement').textContent="Basement: "+data.result.records[j1].car_park_basement;
+        document.getElementById('sdnDecks').textContent="No. of decks: "+data.result.records[j1].car_park_decks;
+        document.getElementById('sdnCPType').textContent="Carpark Type: "+data.result.records[j1].car_park_type;
+        document.getElementById('sdnGHeight').textContent="Gantry Height: "+data.result.records[j1].gantry_height;
+        document.getElementById('sdnNPark').textContent="Night Parking: "+data.result.records[j1].night_parking;
+        document.getElementById('sdnFPark').textContent="Free Parking: "+data.result.records[j1].free_parking;
+        document.getElementById('sdnAvail').textContent="Lots Available: "+data1.items[0].carpark_data[i].carpark_info[0].lots_available+" slots";
         }
-
       }   
     request.send();
   }
