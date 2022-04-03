@@ -1,0 +1,55 @@
+.container{
+    width: 360px;
+    /* padding: 10%; */
+    margin: auto;
+    /* border:1px solid black; */
+    position: relative;
+    margin-top: 10%
+
+  }
+
+.login-page-icon,.forgot{
+  padding-left: 15%;
+}
+
+
+/* header format */
+
+a {
+    text-decoration: none;
+    color:rgb(58, 55, 55);
+  }
+
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    background-color: aliceblue;
+    padding-bottom:10px;
+}
+
+.header .logo {
+    padding-left:18px;
+    font-size:30px;
+}
+
+.header .right-header {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap: 10px;
+}
+
+.header .right-header img {
+    max-width:30px;
+    padding-top:8px;
+}
+
+.header .right-header .login {
+    padding-right: 18px;
+    font-size:20px;
+}
+
+img {
+    max-width:900px;
+}
