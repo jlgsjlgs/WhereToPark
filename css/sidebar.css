@@ -1,3 +1,11 @@
+#sdCNum {
+  white-space: pre;
+}
+
+
+
+/* ABOVE IS NEW */
+
 body{
   font-family:Arial, Helvetica, sans-serif;
   background-color: #f4f4f4;
@@ -7,9 +15,7 @@ hr {
     height: 2px;
     background-color: #F8F8FF; /* Modern Browsers */
 }
-h1{
-  font-size: 30px;
-}
+
 h2{
   padding-left: 5px;
 }
@@ -28,7 +34,10 @@ h2{
   z-index: 1;
   top: 50px;
   right:0;
-  background-color: white;
+  /* background-color: white; */
+  /* background-color: #ffe4e1; */
+  background-image: linear-gradient(120deg, #ffe6e6 0%, #ffe4e1 100%);
+
   opacity: 1;
   overflow-x: hidden;
   padding: top 60px;
@@ -157,7 +166,7 @@ p {
   /* border:1px solid black; */
   padding:10px;
   color:whitesmoke;
-  font-size:10px;
+  font-size: 10px;
 }
 
 .header{
@@ -186,12 +195,6 @@ p {
   display: flex;
   flex-wrap: wrap;
 }
-.bodyR, h3{
-  font-size: 28px;
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .bodyR{
   display: flex;
   justify-content: space-between;
@@ -205,75 +208,105 @@ p {
   margin-right:3px;
 }
 
-.bg-modal {
-  width: 100%;
-  height:100%;
-  background-color: rgba(0, 0, 0, .4);
-  position: absolute;
-  top: 0;
+.rootsdnbar{
+  display: flex;
+}
+
+.sdnHead{
+  justify-content: center;
+  display:flex;
+  background-color: #ffe4e1;
+  height:100px;
+  /* box-shadow: 2px 4px 25px rgba(0, 0, 0, .1); */
+}
+
+.sdnHead h1{
+  font-family: Trebuchet MS;
+  font-size: 40px;
+  margin-left: 15px;
+}
+
+.sdnBody{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.sdnBodyR{
+  display: flex;
+  justify-content: space-between;
+}
+
+.sdnBodyR h1{ 
+  padding: 10px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.sdnBodyL{
+  display: flex;
+  justify-content: space-between;
+}
+
+.sdnBodyL h1{
+  padding:10px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.sdnDBar{
   display: flex;
   justify-content: center;
-  align-items: center;
-  display: none;
-  z-index: 2;
 }
-.modal-content{
-  position: relative;
-  width: 70%;
-  height: 90%;
-  background-color: white;
-  border-radius: 4px;
-  text-align: center;
-  margin: 15px;
+
+.sdnButton{
+  height: 40px;
+  width: 300px;
+  background-color: #ffe4e1;
+  border: none;
+  border-radius: 12px;
+}
+
+.sdnFooter{
+  padding-top: 30px;
+  
+}
+
+.sdnFooter h1{
+  justify-content: center;
+  font-size: 20px;
+}
+
+.sdnAdd{
   display:flex;
-  justify-content: space-between;
-  padding: 20px;
+  flex-direction: row;
+  justify-content: center;
 }
-.btn-modal-close{
-  position: absolute;
-  top: 0;
-  right: 10px;
-  font-size: 40px;
-  padding:0;
 
-  cursor: pointer;
+.sdnAdd h1{
+  font-size: 23px;
 }
-.modal-content .compare-content{
 
-  height: 90%;
-  width: 40%;
-  padding: 20px;
-  padding-top: 14px;
-  margin-top: 20px;
-  margin: 20px 5px 30px 5px;
-  background-color: rgba(255, 192, 203, .2);
-  font-size: 40px;
-  border: solid 2px black;
-  text-align: left;
-
-}
-.compare-section{
+.locIcon{
+  height:40px;
+  width:45px;
   display: flex;
-  flex-direction: column;
-  height: auto;
-  overflow: hidden;
-  text-align: left;
+  position: relative;
+  top: 11px;
 }
 
-.add-section{
-  display: none;
-  align-items: left;
+.horiLine{
+  position: relative;
+  top: 20px;
 }
-.compare-btn{
-  display: none;
-  width: 100px;
-  margin-left:5px;
-}
-.checkbox1{
-  padding-top: 20px;
-}
-label{
-  width: auto;
-  display: inline-block;
 
+.buttondiv {
+  margin-top: 8px;
+  background-color: #ffe4e1;
+  box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+
+}
+
+#closeSidebar {
+  margin-left: 3px;
 }

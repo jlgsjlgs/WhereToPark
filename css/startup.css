@@ -53,7 +53,7 @@ img {
     align-items:center;
 }
 
-#input {
+input {
     border: 1px solid #ddd;
     border-radius: 16px;
     padding:8px 24px;
@@ -66,10 +66,4 @@ img {
     display:flex;
     gap: 160px;
     margin-bottom:100px;
-}
-
-.simulatelogin {
-    padding-left:30px;
-    display:flex;
-    margin: 0px;
 }
