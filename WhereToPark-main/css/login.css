@@ -1,0 +1,141 @@
+.body { 
+  margin:0;
+  font-family:sans-serif;
+  display: flex;
+  flex-direction:column;
+  min-width:600px;
+  overflow:scroll;
+}
+
+.container{
+    width: 360px;
+    padding: 10%;
+    margin: auto;
+    /* border:1px solid black; */
+    position: relative;
+  }
+  
+  .form{
+    postion: relative;
+    z-index: 1;
+    background: #ffffff;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+  }
+  
+  .form input{
+    font-family: "Roboto", sans-serif;
+    outline: 1;
+    background: #f2f2f2;
+    width:100%;
+    border:0;
+    margin: 0 0 15px;
+    box-sizing: borderbox;
+    font-size: 14px;
+  }
+  
+  .form button{
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline:0;
+    background: #4CAF50;
+    width: 100%;
+    padding:15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .form button:hover , .form button:active{
+    background:#43A047;
+  }
+  
+  .form .message{
+    margin: 15px 0 0;
+    color: black;
+    font-size:12px;
+  }
+  
+  .form .message a{
+    color: #4CAF50;
+    text-decoration: underline;
+  }
+
+  .form .forgot-message{
+    display: flex;
+    justify-content: space-around;
+  }
+
+  #forgot-message-pwd{
+    padding-right: 9%;
+  }
+  
+  .form .forgot-message a{
+    color: #6495ED;   
+    font-size: 12px;
+    text-decoration: underline;
+  }
+
+
+
+  .form .register-form{
+    display:none;
+    font-size:12px;
+    margin: 15px 0 0;
+
+  }
+
+  /*Here*/
+  .login-page-icon img{
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    height:50%;
+    width:50%;
+  }
+
+  /* header format */
+
+  a {
+    text-decoration: none;
+    color:rgb(58, 55, 55);
+  }
+
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    background-color: aliceblue;
+    padding-bottom:10px;
+    font-family:sans-serif;
+}
+
+.header .logo {
+    padding-left:18px;
+    font-size:30px;
+}
+
+.header .right-header {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap: 10px;
+}
+
+.header .right-header img {
+    max-width:30px;
+    padding-top:8px;
+}
+
+.header .right-header .login {
+    padding-right: 18px;
+    font-size:20px;
+}
+
+img {
+    max-width:900px;
+}
+

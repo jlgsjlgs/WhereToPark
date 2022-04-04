@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/login.css" />
+    <script src="./js/loginpage.js" defer></script>
+    <title>Login and Registration Form</title>
+</head>
+
+<body> 
+
+  <div class="header">
+    <div class="logo"><a href="./index.html">WhereToPark</a></div>
+    <div class="right-header">
+        <span class="icon-image"><img src="./img/usericon.png" alt="User login icon"></span>
+        <div class="login"><a href="./loginpage.html">Sign In</a></div>
+    </div>
+  </div>  
+
+
+    <div class="container">
+
+
+        <div class="login-page-icon"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlKi-dTKsqe-aBxkOJnNmIGZYcXM0zQDKQOKZmqjDfINherAww6IGqvB8k44XwNhYTSus&usqp=CAU" alt="login icon"></div>
+
+        <div class= "form">
+
+          <form class = "register-form" method="post" action="php/user_details.php">
+            <input type = "text" placeholder = "Name" name="myname" required>
+            <input type = "text" placeholder = "Username" name="uname" required>
+            <input type = "text" placeholder="Email" name="email" required>
+            <input type = "text" placeholder = "Password" name="pwd" required>
+            <input type = "text" placeholder = "Confirm Password"required>
+            <button> Create </button>
+            <p class = "message"> Already Registered? <a href = "#">Login</a> </p>
+          </form>
+
+          <form class = "login-form">
+            <input type = "text" placeholder = "Username" name="uname" required>
+            <input type = "text" placeholder = "Password"name="pwd" required>
+            <button> Login </button>
+            <p class ="message"> Not Registered? <a href ="#"> Register </p>
+
+              <div class="forgot-message">
+                <p> <a href="./forgetuname.html">Forgot Username</a></p>
+                <p id="forgot-message-pwd">  <a href="./forgetpwd.html">Forgot Password</a></p>
+              </div>
+
+              <!-- <p class="forgot-message"> <a href="./index.html">Forgot Username</a></p>
+              <p class="forgot-message"> <a href="./index.html">Forgot Password</a></p> -->
+
+
+          </form>
+
+        <script src = 'https://code.jquery.com/jquery-3.2.1.min.js'>
+        </script>
+
+        <script>
+        $('.message a') .click(function(){
+          $('form').animate({height:"toggle", opacity:"toggle"},"slow")
+        })
+        </script>
+
+      </div>
+
+    </div>
+</body>
+
+
+</html>

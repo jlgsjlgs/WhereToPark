@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/forgot.css" />
+
+    <title>Forgot Password</title>
+
+
+</head>
+<body>
+
+
+  <div class="header">
+    <div class="logo"><a href="./index.html">WhereToPark</a></div>
+    <div class="right-header">
+        <span class="icon-image"><img src="./img/usericon.png" alt="User login icon"></span>
+        <div class="login"><a href="./loginpage.html">Sign In</a></div>
+    </div>
+  </div>  
+  
+
+    <div class="container">
+          <div class="login-page-icon"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlKi-dTKsqe-aBxkOJnNmIGZYcXM0zQDKQOKZmqjDfINherAww6IGqvB8k44XwNhYTSus&usqp=CAU" alt="login icon"></div>
+          <div class="forgot">
+                <h1> Forgot Password? <h1>
+                <h3> You can reset your password here. </h3>
+                <input type = "text" placeholder = "Email Address" name="myname" required>
+                <button class="submit" onclick="submit()"> Send email </button>
+                <script>
+                    function submit(){
+                        //routes back to
+                        location.href="forgetpwd.html";
+                        //display success/error message
+                        // to save preference and return if success or not
+                        let success = true;
+                        if(success)
+                            alert("An email has been sent to your registered email address to reset your password.");
+                        else alert("Unsuccessful, please try again")
+                    }
+                </script>
+          </div>
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>
