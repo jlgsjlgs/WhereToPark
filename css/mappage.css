@@ -1,11 +1,13 @@
 #map{
-    height: 55rem;
-    width: 100%;
+    height: 41rem;
+    width: 80%;
     margin-top: 0px;
     position: relative;
+    z-index: 1;
 }
 html, body{
     margin: 0;
     padding: 0;
 
 }
+
