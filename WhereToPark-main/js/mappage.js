@@ -42,7 +42,14 @@ function initMap() {
         };
 
         var tempitem = sessionStorage.getItem("locationmarker");
-
+        
+        var radiusdist;
+        if (sessionStorage.getItem("simulate") === "1"){
+            radiusdist = 2;
+        } else {
+            radiusdist = 1;
+        }
+        sessionStorage.removeItem("locationmarker");
  
 
         if (tempitem != null) {
@@ -63,7 +70,7 @@ function initMap() {
                   map: map,
                 });
 
-                if (haversine_distance(locationmarker, marker) > 1){
+                if (haversine_distance(locationmarker, marker) > radiusdist){
                     marker.setMap(null);
                 } else {
                     markers.push(marker);

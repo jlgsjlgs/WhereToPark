@@ -29,8 +29,8 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
     //access the JSON data
     request.onload = function () {
       var data1 = JSON.parse(this.response);
-      console.log(data1.items[0].carpark_data[0].carpark_info[0].lots_available + '1st'); //2nd api change carpark_data[i] for the array
-      console.log(data.result.records[0]); //1st api change records[i] for the array
+      // console.log(data1.items[0].carpark_data[0].carpark_info[0].lots_available + '1st'); //2nd api change carpark_data[i] for the array
+      // console.log(data.result.records[0]); //1st api change records[i] for the array
 
       let len1 = data.result.records.length; //length of first api
       let len2 = data1.items[0].carpark_data.length; //length of second api
@@ -60,34 +60,28 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
       for(let i=0; i<len2;i++){ //adding the data of second API into hMap-> key: carpark num & value = index of element in array
         hMap.set(data1.items[0].carpark_data[i].carpark_number,i); //data1.items[0].carpark_data[i].carpark_number
       }
+
+      const firstAPIhmap = new Map();
+      for (let i=0; i<len1;i++){
+        firstAPIhmap.set(data.result.records[i].car_park_no, i);
+      }
+
       for(let u=0; u<markers.length; u++){  // for how many markers are shown
         console.log('test for marker' + u);
-        for(let j=0; j<len1; j++){ //for every entry in api1, find the index of carpark num in hMap  
+        
+        tempcarparkindex= firstAPIhmap.get(markers[u].title);
 
-          let cNum = data.result.records[j].car_park_no;
-          console.log('Checking API for ' + cNum + ' for marker ' + markers[u].title + "| " +(j+1) +'carparks searched');
+          let cNum = data.result.records[tempcarparkindex].car_park_no;
           if (cNum == markers[u].title){
-            console.log('Found a match!');
             if(removerepeats.get(cNum)!=null)
             continue;
-          removerepeats.set(data.result.records[j].car_park_no,j)
-          localStorage.setItem(data.result.records[j].car_park_no,j);
-          let index = hMap.get(cNum); //index is the value in the hMap
-        //////////
-          // console.log(markers.length);
-          // for(i=0; i<markers.length;i++){
-          //   console.log(markers[i].title);
-          // }
-          ///////////////
+          removerepeats.set(data.result.records[tempcarparkindex].car_park_no,tempcarparkindex);
+          localStorage.setItem(data.result.records[tempcarparkindex].car_park_no,tempcarparkindex);
+          let index = hMap.get(cNum); 
 
           if(index==null)
             continue;
-          // console.log(hMap.get(cNum));
-          //console.log('carpark number:', data.result.records[j].car_park_no); //carpark num
-          //console.log('carpark avail:', data1.items[0].carpark_data[index].carpark_info[0].lots_available); //lots available
-          // console.log('carpark avail:', data1.items[0].carpark_data[index].carpark_number); //to check if the carpark numbers are the same
 
-          /*display carpark cards onto sidebar*/
           const card = document.createElement('div')
           card.setAttribute('class', 'card')
           card.setAttribute('id', cNum)
@@ -118,7 +112,7 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           //header content
           const cName = document.createElement('h1');
           const cAvail = document.createElement('h1');
-          cName.textContent = data.result.records[j].car_park_no
+          cName.textContent = data.result.records[tempcarparkindex].car_park_no
           cAvail.textContent = data1.items[0].carpark_data[index].carpark_info[0].lots_available +' spaces'
           
           header.appendChild(cName)
@@ -167,7 +161,7 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           bodyR.appendChild(walkDist);
 
           //footer content
-          if(data.result.records[j].gantry_height!=0){ //some carparks have gantry height as 0, hence we do not display the following for them
+          if(data.result.records[tempcarparkindex].gantry_height!=0){ //some carparks have gantry height as 0, hence we do not display the following for them
             //carpark icon
             const carIcon = document.createElement('img')
             carIcon.src = 'img/carparkHeight_icon.png'
@@ -176,14 +170,12 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
 
             //height text
             const cHeight = document.createElement('h1');
-            cHeight.textContent = data.result.records[j].gantry_height;
+            cHeight.textContent = data.result.records[tempcarparkindex].gantry_height;
             footer.appendChild(cHeight);
           }
-          break;
           }
           
 
-          }
         }
       
         function clickHandler(cnum){
