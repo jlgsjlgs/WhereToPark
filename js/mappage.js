@@ -4,7 +4,9 @@ const api_govforgmap = 'https://data.gov.sg/api/action/datastore_search?resource
 
 var resultLatLng = new Array();
 var resultCarparkName = new Array();
-
+/////////////////////////
+var markers = [];
+////////////////////////////
 function getCarparkLocations(){
     var request = new XMLHttpRequest();
     request.open('GET', 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&limit=5000', true);
@@ -40,7 +42,15 @@ function initMap() {
         };
 
         var tempitem = sessionStorage.getItem("locationmarker");
-        var markers = [];
+        
+        var radiusdist;
+        if (sessionStorage.getItem("simulate") === "1"){
+            radiusdist = 2;
+        } else {
+            radiusdist = 1;
+        }
+        sessionStorage.removeItem("locationmarker");
+ 
 
         if (tempitem != null) {
             sessionStorage.removeItem("locationmarker");
@@ -60,7 +70,7 @@ function initMap() {
                   map: map,
                 });
 
-                if (haversine_distance(locationmarker, marker) > 1){
+                if (haversine_distance(locationmarker, marker) > radiusdist){
                     marker.setMap(null);
                 } else {
                     markers.push(marker);
