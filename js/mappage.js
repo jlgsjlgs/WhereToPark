@@ -82,6 +82,15 @@ function initMap() {
 
         request.onload = function () {
             var data1 = JSON.parse(this.response);
+            const hMap = new Map(); //creating hashmap
+
+            let len2 = data1.items[0].carpark_data.length; //length of second api
+            let index2;
+
+            for(let i=0; i<len2;i++){ //adding the data of second API into hMap-> key: carpark num & value = index of element in array
+                hMap.set(data1.items[0].carpark_data[i].carpark_number,i); //data1.items[0].carpark_data[i].carpark_number
+              }
+
             for (let i = 0; i < resultLatLng.length; i++) {
                 const marker = new google.maps.Marker({
                   position: new google.maps.LatLng(resultLatLng[i].lat, resultLatLng[i].lon),
@@ -94,6 +103,7 @@ function initMap() {
                     for (let i = 0; i < ggdata.result.records.length; i++){  // checks against api
                         if (selectedcarparkNum == ggdata.result.records[i].car_park_no){
                             foundindex = i;
+                            index2 = hMap.get(selectedcarparkNum);
                         }
                     }
     
@@ -112,7 +122,7 @@ function initMap() {
                     document.getElementById('sdnGHeight').textContent="Gantry Height: "+ggdata.result.records[foundindex].gantry_height;
                     document.getElementById('sdnNPark').textContent="Night Parking: "+ggdata.result.records[foundindex].night_parking;
                     document.getElementById('sdnFPark').textContent="Free Parking: "+ggdata.result.records[foundindex].free_parking;
-                    document.getElementById('sdnAvail').textContent="Lots Available: "+data1.items[0].carpark_data[foundindex].carpark_info[0].lots_available+" slots"
+                    document.getElementById('sdnAvail').textContent="Lots Available: "+data1.items[0].carpark_data[index2].carpark_info[0].lots_available+" slots"
     
     
                     let displayAddress = ggdata.result.records[foundindex].address;
