@@ -1,15 +1,55 @@
 //javascript for carpark card displays (incl govAPIRef code)
-myStorage = window.localStorage;
 const app = document.getElementById('carparkDisplays')
 
+const filterbtn = document.createElement('div')
 const container = document.createElement('div')
+filterbtn.setAttribute('class', 'filterbtn')
 container.setAttribute('class', 'container')
- 
+
+app.appendChild(filterbtn)
 app.appendChild(container)
+
+//Creating filter buttons (distance, rate, avail slots)
+//create separate div (text) for 'sort by' text within filterbtn div
+const text = document.createElement('div')
+text.setAttribute('class', 'text')
+text.textContent="Sort by:"
+filterbtn.appendChild(text)
+
+//create separate div (btns) for all 3 buttons within filterbtn div
+const btns = document.createElement('div')
+btns.setAttribute('class', 'btns')
+filterbtn.appendChild(btns)
+
+//create distSort button and append to 'btns' div
+const distSort = document.createElement('div')
+distSort.setAttribute('class', 'distSort')
+distSort.textContent="Distance"
+btns.appendChild(distSort)
+distSort.addEventListener("click",function(){ alert("test") });
+
+//create priceSort button and append to 'btns' div
+const priceSort = document.createElement('div')
+priceSort.setAttribute('class', 'priceSort')
+priceSort.textContent="Price"
+btns.appendChild(priceSort)
+priceSort.addEventListener("click",function(){ alert("test") });
+
+
+
+//create slotSort button and append to 'btns' div
+const slotSort = document.createElement('div')
+slotSort.setAttribute('class', 'slotSort')
+slotSort.textContent="Available Slots"
+btns.appendChild(slotSort)
+slotSort.addEventListener("click",function(){ alert("test") });
+
+
+
 const hMap = new Map(); //creating hashmap
 
-// const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&'
-const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&limit=5000'
+const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&q=BLK 478 YISHUN ST 42'
+
 //function to send request
   async function getData(){
     const response = await fetch(api_url);
@@ -18,7 +58,7 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
     //basically assigning the variables to the attributes in the data table for ease of access
     const{address, car_park_basement, car_park_decks, car_park_no, car_park_type, free_parking, gantry_height, night_parking, _full_count } = data.result.records[0];
 
-    
+
 
     //create new request
     var request = new XMLHttpRequest()
@@ -29,8 +69,8 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
     //access the JSON data
     request.onload = function () {
       var data1 = JSON.parse(this.response);
-      // console.log(data1.items[0].carpark_data[0].carpark_info[0].lots_available + '1st'); //2nd api change carpark_data[i] for the array
-      // console.log(data.result.records[0]); //1st api change records[i] for the array
+      console.log(data1.items[0].carpark_data[0].carpark_info[0].lots_available); //2nd api change carpark_data[i] for the array
+      console.log(data.result.records[0]); //1st api change records[i] for the array
 
       let len1 = data.result.records.length; //length of first api
       let len2 = data1.items[0].carpark_data.length; //length of second api
@@ -61,146 +101,154 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
         hMap.set(data1.items[0].carpark_data[i].carpark_number,i); //data1.items[0].carpark_data[i].carpark_number
       }
 
-      const firstAPIhmap = new Map();
-      for (let i=0; i<len1;i++){
-        firstAPIhmap.set(data.result.records[i].car_park_no, i);
-      }
+      for(let j=0; j<len1; j++){ //for every entry in api1, find the index of carpark num in hMap
+        let cNum = data.result.records[j].car_park_no;
+        if(removerepeats.get(cNum)!=null)
+          continue;
+        removerepeats.set(data.result.records[j].car_park_no,j)
+        //localStorage.setItem(data.result.records[j].car_park_no,j);
+        let index = hMap.get(cNum); //index is the value in the hMap
+        if(index==null)
+          continue;
+        // console.log(hMap.get(cNum));
+        //console.log('carpark number:', data.result.records[j].car_park_no); //carpark num
+        //console.log('carpark avail:', data1.items[0].carpark_data[index].carpark_info[0].lots_available); //lots available
+        // console.log('carpark avail:', data1.items[0].carpark_data[index].carpark_number); //to check if the carpark numbers are the same
 
-      for(let u=0; u<markers.length; u++){  // for how many markers are shown
-        console.log('test for marker' + u);
-        
-        tempcarparkindex= firstAPIhmap.get(markers[u].title);
+        /*display carpark cards onto sidebar*/
+        const card = document.createElement('div')
+        card.setAttribute('class', 'card')
+        card.setAttribute('id', cNum)
+        container.appendChild(card)
 
-          let cNum = data.result.records[tempcarparkindex].car_park_no;
-          if (cNum == markers[u].title){
-            if(removerepeats.get(cNum)!=null)
-            continue;
-          removerepeats.set(data.result.records[tempcarparkindex].car_park_no,tempcarparkindex);
-          localStorage.setItem(data.result.records[tempcarparkindex].car_park_no,tempcarparkindex);
-          let index = hMap.get(cNum); 
+        card.addEventListener("click",function(){ clickHandler(card.id,j); });
 
-          if(index==null)
-            continue;
+         //creating 3diff divs-header, body, footer + the lines in between
+         const header = document.createElement('div');
+         header.setAttribute('class','header');
 
-          const card = document.createElement('div')
-          card.setAttribute('class', 'card')
-          card.setAttribute('id', cNum)
-          container.appendChild(card)
+         const body = document.createElement('div');
+         body.setAttribute('class','body');
 
-          card.addEventListener("click",function(){ clickHandler(card.id); });
+         const footer = document.createElement('div');
+         footer.setAttribute('class','footer');
 
-          //creating 3diff divs-header, body, footer + the lines in between
-          const header = document.createElement('div');
-          header.setAttribute('class','header');
-  
-          const body = document.createElement('div');
-          body.setAttribute('class','body');
-        
-          const footer = document.createElement('div');
-          footer.setAttribute('class','footer');
-  
-          const hr1 = document.createElement('hr');
-          const hr2 = document.createElement('hr');
-          
-          card.appendChild(header);
-          card.appendChild(hr1);
-          card.appendChild(body);
-          card.appendChild(hr2);
-          card.appendChild(footer);
-  
+         const hr1 = document.createElement('hr');
+         const hr2 = document.createElement('hr');
 
-          //header content
-          const cName = document.createElement('h1');
-          const cAvail = document.createElement('h1');
-          cName.textContent = data.result.records[tempcarparkindex].car_park_no
-          cAvail.textContent = data1.items[0].carpark_data[index].carpark_info[0].lots_available +' spaces'
-          
-          header.appendChild(cName)
-          header.appendChild(cAvail)    
-        
+         card.appendChild(header);
+         card.appendChild(hr1);
+         card.appendChild(body);
+         card.appendChild(hr2);
+         card.appendChild(footer);
 
-          //body content
-          const bodyL = document.createElement('div')
-          bodyL.setAttribute('class','bodyL')
-          const bodyR = document.createElement('div')
-          bodyR.setAttribute('class','bodyR')
-          body.appendChild(bodyL)
-          body.appendChild(bodyR)
 
-          //bodyL
-          let index1= centralcpark.get(cNum);
-          if(index1==null)
-          {
-          const cPrice=document.createElement('h1')
-          cPrice.setAttribute('style','white-space: pre;')
-          cPrice.textContent="$0.60\r\n30mins"
-          cPrice.setAttribute('class', 'cPrice')
-          bodyL.appendChild(cPrice);
-          }
-          else
-          {
-          const cPrice=document.createElement('h1');
-          cPrice.setAttribute('style','white-space: pre;')
-          cPrice.textContent=`$1.20\r\n30mins (Mon to Sat 7am to 5pm)
-                              $0.60\r\n30mins (Other hours)`;
-                              cPrice.setAttribute('class', 'cPrice')
-                              bodyL.appendChild(cPrice);
-          }
+        //header content
+        const cName = document.createElement('h1');
+        const cAvail = document.createElement('h1');
+        cName.textContent = data.result.records[j].car_park_no
+        cAvail.textContent = data1.items[0].carpark_data[index].carpark_info[0].lots_available +' spaces'
 
-          //bodyR
-          //walking icon
-          const walkingIcon = document.createElement('img')
-          walkingIcon.src = 'https://img.favpng.com/11/19/25/logo-walking-symbol-clip-art-png-favpng-uBp8dvZ4FWCLZKf9DRijTa36a.jpg'
-          walkingIcon.setAttribute('class', 'walkingIcon')
-          bodyR.appendChild(walkingIcon);
-        
-          //text 
-          const walkDist = document.createElement('h1')
-          walkDist.setAttribute('style','white-space: pre;')
-          walkDist.textContent='1 min\r\nto destination'
-          bodyR.appendChild(walkDist);
+        header.appendChild(cName)
+        header.appendChild(cAvail)
 
-          //footer content
-          if(data.result.records[tempcarparkindex].gantry_height!=0){ //some carparks have gantry height as 0, hence we do not display the following for them
-            //carpark icon
-            const carIcon = document.createElement('img')
-            carIcon.src = 'img/carparkHeight_icon.png'
-            carIcon.setAttribute('class', 'carIcon')
-            footer.appendChild(carIcon);
 
-            //height text
-            const cHeight = document.createElement('h1');
-            cHeight.textContent = data.result.records[tempcarparkindex].gantry_height;
-            footer.appendChild(cHeight);
-          }
-          }
-          
+        //body content
+        const bodyL = document.createElement('div')
+        bodyL.setAttribute('class','bodyL')
+        const bodyR = document.createElement('div')
+        bodyR.setAttribute('class','bodyR')
+        body.appendChild(bodyL)
+        body.appendChild(bodyR)
 
-        }
-      
-        function clickHandler(cnum){
-          var i=hMap.get(cnum)
-          document.getElementById('carparkDisplays').style.display = "none";
-          document.getElementById('sidebarnext').style.display = "block";
-          const slots=document.getElementById('slots')
-          const payy=document.getElementById('payy')
-          slots.textContent=data1.items[0].carpark_data[i].carpark_info[0].lots_available
-          let index1= centralcpark.get(cnum);
+        //bodyL
+        let index1= centralcpark.get(cNum);
         if(index1==null)
         {
-         payy.textContent="Rates: "+"$0.60 / 30mins"
+         const cPrice=document.createElement('h1')
+         cPrice.setAttribute('style','white-space: pre;')
+         cPrice.textContent="$0.60\r\n30mins"
+         cPrice.setAttribute('class', 'cPrice')
+         bodyL.appendChild(cPrice);
         }
         else
         {
-         payy.textContent="Rates: "+`$1.20 / 30mins (Mon to Sat 7am to 5pm)
-                          $0.60 / 30mins (Other hours)`;
-        }
-        document.getElementById('cparknumm').textContent=cnum;
+         const cPrice=document.createElement('h1');
+         cPrice.setAttribute('style','white-space: pre;')
+         cPrice.textContent=`$1.20\r\n30mins (Mon to Sat 7am to 5pm)
+                             $0.60\r\n30mins (Other hours)`;
+                             cPrice.setAttribute('class', 'cPrice')
+                             bodyL.appendChild(cPrice);
         }
 
-      }   
+        //bodyR
+        //walking icon
+        const walkingIcon = document.createElement('img')
+        walkingIcon.src = 'https://img.favpng.com/11/19/25/logo-walking-symbol-clip-art-png-favpng-uBp8dvZ4FWCLZKf9DRijTa36a.jpg'
+        walkingIcon.setAttribute('class', 'walkingIcon')
+        bodyR.appendChild(walkingIcon);
+
+        //text
+        const walkDist = document.createElement('h1')
+        walkDist.setAttribute('style','white-space: pre;')
+        walkDist.textContent='1 min\r\nto destination'
+        bodyR.appendChild(walkDist);
+
+        //footer content
+        if(data.result.records[j].gantry_height!=0){ //some carparks have gantry height as 0, hence we do not display the following for them
+          //carpark icon
+          const carIcon = document.createElement('img')
+          carIcon.src = 'img/carparkHeight_icon.png'
+          carIcon.setAttribute('class', 'carIcon')
+          footer.appendChild(carIcon);
+
+          //height text
+          const cHeight = document.createElement('h1');
+          cHeight.textContent = data.result.records[j].gantry_height;
+          footer.appendChild(cHeight);
+        }
+
+        }
+
+        function clickHandler(cnum,j1){
+          var i=hMap.get(cnum)
+          var rootsdnbar= document.getElementById('sidebarnext');
+          document.getElementById('carparkDisplays').style.display = "none";
+          document.getElementById('sidebarnext').style.display = "block";
+          //const slots=document.getElementById('slots')
+          //const payy=document.getElementById('payy')
+                   //slots.textContent=data1.items[0].carpark_data[i].carpark_info[0].lots_available+" slots"
+          const sdnHead = document.createElement('div');
+
+
+
+
+        let index1= centralcpark.get(cnum);
+
+        document.getElementById('sdCNum').textContent=cnum;
+        console.log("test");
+
+        if(index1==null)
+        {
+          document.getElementsByClassName('sdCPrice')[0].textContent="$0.60\r\n30mins";
+        }
+        else
+        {
+          document.getElementsByClassName('cdCPrice')[0].textContent=  `$1.20\r\n30mins (Mon to Sat 7am to 5pm)
+          $0.60\r\n30mins (Other hours)`;
+        }
+        // let i = hMap.get(cnum);
+        // Changing the text on the sidebar
+        document.getElementById('sdnAddt').textContent = data.result.records[j1].address;
+        document.getElementById('sdnBasement').textContent="Basement: "+data.result.records[j1].car_park_basement;
+        document.getElementById('sdnDecks').textContent="No. of decks: "+data.result.records[j1].car_park_decks;
+        document.getElementById('sdnCPType').textContent="Carpark Type: "+data.result.records[j1].car_park_type;
+        document.getElementById('sdnGHeight').textContent="Gantry Height: "+data.result.records[j1].gantry_height;
+        document.getElementById('sdnNPark').textContent="Night Parking: "+data.result.records[j1].night_parking;
+        document.getElementById('sdnFPark').textContent="Free Parking: "+data.result.records[j1].free_parking;
+        document.getElementById('sdnAvail').textContent="Lots Available: "+data1.items[0].carpark_data[i].carpark_info[0].lots_available+" slots";
+        }
+      }
     request.send();
   }
 getData();
-
-
