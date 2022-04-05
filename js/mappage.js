@@ -7,6 +7,19 @@ var resultCarparkName = new Array();
 /////////////////////////
 var markers = [];
 ////////////////////////////
+function closeSidebar(){
+    document.getElementsByClassName('sidebar')[0].style.display="none"; //hide
+    document.getElementById('sidebarnext').style.display="none"; //hide
+    // document.getElementById('map').style.width="100%";
+    // document.getElementById('map').style.height="55rem";
+}
+function openCPDisplay(){
+    document.getElementsByClassName('sidebar')[0].style.display="block"; //display
+    document.getElementById('sidebarnext').style.display="none";
+    document.getElementById('carparkDisplays').style.display="block";
+}
+
+
 function getCarparkLocations(){
     var request = new XMLHttpRequest();
     request.open('GET', 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&limit=5000', true);
@@ -29,157 +42,124 @@ let autocomplete;
 let map;
 function initMap() {
 
-        let mapOptions = {center: {lat: 1.3483, lng: 103.6831},
-            zoom: 15};
-        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    let mapOptions = {center: {lat: 1.3483, lng: 103.6831},
+        zoom: 15};
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-        // Initialize custom markers for all the carparks
-        const iconBase = "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
-        const icons = {
-            parking: {
-            icon: iconBase + "parking_lot_maps.png",
-            },
-        };
+    // Initialize custom markers for all the carparks
+    const iconBase = "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+    const icons = {
+        parking: {
+        icon: iconBase + "parking_lot_maps.png",
+        },
+    };
 
-        var tempitem = sessionStorage.getItem("locationmarker");
-        
-        var radiusdist;
-        if (sessionStorage.getItem("simulate") === "1"){
-            radiusdist = 2;
-        } else {
-            radiusdist = 1;
-        }
+    var tempitem = sessionStorage.getItem("locationmarker");
+    
+    var radiusdist;
+    if (sessionStorage.getItem("simulate") === "1"){
+        radiusdist = 2;
+    } else {
+        radiusdist = 1;
+    }
+    sessionStorage.removeItem("simulate");
+
+
+    if (tempitem != null) {
         sessionStorage.removeItem("locationmarker");
- 
+        var searchresult = JSON.parse(tempitem);
+        const locationmarker = new google.maps.Marker({
+            position: searchresult.geometry.location,
+            title: searchresult.name,
+            map: map
+        });
+        map.panTo(locationmarker.position);
 
-        if (tempitem != null) {
-            sessionStorage.removeItem("locationmarker");
-            var searchresult = JSON.parse(tempitem);
-            const locationmarker = new google.maps.Marker({
-                position: searchresult.geometry.location,
-                title: searchresult.name,
-                map: map
+        for (let i = 0; i < resultLatLng.length; i++) {
+            const marker = new google.maps.Marker({
+                position: new google.maps.LatLng(resultLatLng[i].lat, resultLatLng[i].lon),
+                title: resultCarparkName[i],
+                icon: icons["parking"].icon,
+                map: map,
             });
-            map.panTo(locationmarker.position);
 
-            for (let i = 0; i < resultLatLng.length; i++) {
-                const marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(resultLatLng[i].lat, resultLatLng[i].lon),
-                  title: resultCarparkName[i],
-                  icon: icons["parking"].icon,
-                  map: map,
-                });
-
-                if (haversine_distance(locationmarker, marker) > radiusdist){
-                    marker.setMap(null);
-                } else {
-                    markers.push(marker);
-                }
-            }
-
-        } else {
-            for (let i = 0; i < resultLatLng.length; i++) {
-                const marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(resultLatLng[i].lat, resultLatLng[i].lon),
-                  title: resultCarparkName[i],
-                  icon: icons["parking"].icon,
-                  map: map,
-                });
+            if (haversine_distance(locationmarker, marker) > radiusdist){
+                marker.setMap(null);
+            } else {
                 markers.push(marker);
             }
         }
 
+    } else {
+        for (let i = 0; i < resultLatLng.length; i++) {
+            const marker = new google.maps.Marker({
+                position: new google.maps.LatLng(resultLatLng[i].lat, resultLatLng[i].lon),
+                title: resultCarparkName[i],
+                icon: icons["parking"].icon,
+                map: map,
+            });
+            markers.push(marker);
+        }
+    }
+
+    var request = new XMLHttpRequest()
+    request.open('GET','https://api.data.gov.sg/v1/transport/carpark-availability', true);
+
+    request.onload = function () {
+        var data1 = JSON.parse(this.response);
+        const hMap = new Map(); //creating hashmap
+
+        let len2 = data1.items[0].carpark_data.length; //length of second api
+        let index2;
+
+        for(let i=0; i<len2;i++){ //adding the data of second API into hMap-> key: carpark num & value = index of element in array
+            hMap.set(data1.items[0].carpark_data[i].carpark_number,i); //data1.items[0].carpark_data[i].carpark_number
+        }
+
         for (let i=0; i<markers.length; i++){
             const marker = markers[i];
-
             marker.addListener("click", () => {
                 let selectedcarparkNum = marker.getTitle();  // When you click on a marker, it retrieves the label (carpark no.)
                 for (let i = 0; i < ggdata.result.records.length; i++){  // checks against api
                     if (selectedcarparkNum == ggdata.result.records[i].car_park_no){
                         foundindex = i;
+                        index2 = hMap.get(selectedcarparkNum);
                     }
                 }
-                document.querySelector('.compare-section').style.display='flex';
-                
-                // map.setCenter(marker.getPosition());
                 // Current APi
-                document.getElementById('carparkDisplays').style.display="none"; //display
-                document.getElementById('sidebarnext').style.display="block"; //hide
-                
+                document.getElementById('carparkDisplays').style.display="none"; //hide
+                document.getElementById('sidebarnext').style.display="block"; //display
+                document.getElementById('sdCNum').textContent=selectedcarparkNum;
+                document.getElementById('sdnAddt').textContent = ggdata.result.records[foundindex].address;
+                document.getElementById('sdnBasement').textContent="Basement: "+ggdata.result.records[foundindex].car_park_basement;
+                document.getElementById('sdnDecks').textContent="No. of decks: "+ggdata.result.records[foundindex].car_park_decks;
+                document.getElementById('sdnCPType').textContent="Carpark Type: "+ggdata.result.records[foundindex].car_park_type;
+                document.getElementById('sdnGHeight').textContent="Gantry Height: "+ggdata.result.records[foundindex].gantry_height;
+                document.getElementById('sdnNPark').textContent="Night Parking: "+ggdata.result.records[foundindex].night_parking;
+                document.getElementById('sdnFPark').textContent="Free Parking: "+ggdata.result.records[foundindex].free_parking;
+                document.getElementById('sdnAvail').textContent="Lots Available: "+data1.items[0].carpark_data[index2].carpark_info[0].lots_available+" slots"
+
+
                 let displayAddress = ggdata.result.records[foundindex].address;
                 let displayCPNum = ggdata.result.records[foundindex].car_park_no;
                 let displayCPType = ggdata.result.records[foundindex].car_park_type;
                 let displayNightParking = ggdata.result.records[foundindex].night_parking;
                 let displayGantryHeight  =  ggdata.result.records[foundindex].gantry_height;
                 let displayCPBasement = ggdata.result.records[foundindex].car_park_basement;
-                if (document.getElementById("checkbox1").checked == false){
-                    // Outputting to console
-                    console.log("Address:", displayAddress);
-                    console.log("Car Park No.:", displayCPNum);
-                    console.log("Car Park Type:", displayCPType);
-                    console.log("Night Parking Available:", displayNightParking);
-                    console.log("Gantry Height:", displayGantryHeight, "m");
-                    console.log("Is there a basement level:", displayCPBasement);
-                    // Changing the text on sidebar
-                    document.getElementById('add').textContent = displayAddress;
-                    // document.getElementById('basement').textContent = displayCPBasement;
-                    // // document.getElementById('deck').textContent = car_park_decks;
-                    // document.getElementById('num').textContent = displayCPNum;
-                    // document.getElementById('type').textContent = displayCPType;
-                    // // document.getElementById('free').textContent = free_parking;
-                    // document.getElementById('height').textContent = displayGantryHeight;
-                    // document.getElementById('night').textContent = displayNightParking;
-                    // // document.getElementById('full').textContent = _full_count;
-                    document.getElementById('checkbox1').addEventListener('click', function(){
-                        document.querySelector('.compare-btn').style.display='none';
-                        document.querySelector('.add-section').style.display='none';
-                        if(document.getElementById('checkbox1').checked){
-                            add1 = displayAddress;
-                            document.querySelector('.compare-btn').style.display='block';
-                            document.querySelector('.add-section').style.display='block';
-                            document.getElementById('compare-btn').addEventListener('click', function (){
-                                document.querySelector('.bg-modal').style.display="flex";
-                                document.getElementById('add2').textContent = displayAddress;
-                            });
-                            document.getElementById('btn-modal-close').addEventListener('click', function(){
-                                document.querySelector('.bg-modal').style.display='none';
-                            });
-                        };
-                    });
-                } else{
-                    document.getElementById('add3').textContent = displayAddress;
-                    document.getElementById('add4').textContent = displayAddress;
-                }
+                // Outputting to console
+                console.log("Address:", displayAddress);
+                console.log("Car Park No.:", displayCPNum);
+                console.log("Car Park Type:", displayCPType);
+                console.log("Night Parking Available:", displayNightParking);
+                console.log("Gantry Height:", displayGantryHeight, "m");
+                console.log("Is there a basement level:", displayCPBasement);
+                // Changing the text on sidebar
+                document.getElementById('add').textContent = displayAddress;
             });
+
         }
- 
-        // module.exports = {displayAddress, displayCPNum, displayCPType, displayNightParking, displayGantryHeight, displayCPBasement};
-
-
-        // Linking startuppage search result to mappage
-
-        // marker.addListener("click", () => {
-        //     console.log("Click works!")
-        //     let selectedcarparkNum = marker.getTitle();  // When you click on a marker, it retrieves the label (carpark no.)
-        //     for (let i = 0; i < ggdata.result.records.length; i++){  // checks against api
-        //         if (selectedcarparkNum == ggdata.result.records[i].car_park_no){
-        //             let foundindex = i;
-        //         }
-        //     }
-        //     // Current APi
-        //     let displayAddress = ggdata.result.records[foundindex].address;
-        //     let displayCPNum = ggdata.result.records[foundindex].car_park_no;
-        //     let displayCPType = ggdata.result.records[foundindex].car_park_type;
-        //     let displayNightParking = ggdata.result.records[foundindex].night_parking;
-        //     let displayGantryHeight  =  ggdata.result.records[foundindex].gantry_height;
-        //     let displayCPBasement = ggdata.result.records[foundindex].car_park_basement;
-        //     console.log(displayAddress);
-        //     console.log(displayCPNum);
-        //     console.log(displayCPType);
-        //     console.log(displayNightParking);
-        //     console.log(displayGantryHeight);
-        //     console.log(displayCPBasement);
-        // });
+    }
+    request.send();
 }
 
 //Function to calculate distance between 2 markers on GMaps (For radius purposes)

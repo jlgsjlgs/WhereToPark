@@ -1,5 +1,4 @@
 //javascript for carpark card displays (incl govAPIRef code)
-myStorage = window.localStorage;
 const app = document.getElementById('carparkDisplays')
 
 const container = document.createElement('div')
@@ -8,7 +7,6 @@ container.setAttribute('class', 'container')
 app.appendChild(container)
 const hMap = new Map(); //creating hashmap
 
-// const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&'
 const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&limit=5000'
 //function to send request
   async function getData(){
@@ -29,13 +27,9 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
     //access the JSON data
     request.onload = function () {
       var data1 = JSON.parse(this.response);
-      // console.log(data1.items[0].carpark_data[0].carpark_info[0].lots_available + '1st'); //2nd api change carpark_data[i] for the array
-      // console.log(data.result.records[0]); //1st api change records[i] for the array
 
       let len1 = data.result.records.length; //length of first api
       let len2 = data1.items[0].carpark_data.length; //length of second api
-      console.log(len1); //34 for 478 YISHUN ST 42
-      console.log(len2); //1963
 
       //hashmap to store all the carparks that have exceptions in carpark pricing
       const centralcpark= new Map();
@@ -66,17 +60,14 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
         firstAPIhmap.set(data.result.records[i].car_park_no, i);
       }
 
-      for(let u=0; u<markers.length; u++){  // for how many markers are shown
-        console.log('test for marker' + u);
-        
+      for(let u=0; u<markers.length; u++){  // for how many markers are shown    
         tempcarparkindex= firstAPIhmap.get(markers[u].title);
 
-          let cNum = data.result.records[tempcarparkindex].car_park_no;
-          if (cNum == markers[u].title){
-            if(removerepeats.get(cNum)!=null)
+        let cNum = data.result.records[tempcarparkindex].car_park_no;
+        if (cNum == markers[u].title){
+          if(removerepeats.get(cNum)!=null)
             continue;
           removerepeats.set(data.result.records[tempcarparkindex].car_park_no,tempcarparkindex);
-          localStorage.setItem(data.result.records[tempcarparkindex].car_park_no,tempcarparkindex);
           let index = hMap.get(cNum); 
 
           if(index==null)
@@ -87,7 +78,7 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           card.setAttribute('id', cNum)
           container.appendChild(card)
 
-          card.addEventListener("click",function(){ clickHandler(card.id); });
+          card.addEventListener("click",function(){ clickHandler(card.id, tempcarparkindex); });
 
           //creating 3diff divs-header, body, footer + the lines in between
           const header = document.createElement('div');
@@ -129,22 +120,19 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
 
           //bodyL
           let index1= centralcpark.get(cNum);
-          if(index1==null)
-          {
-          const cPrice=document.createElement('h1')
-          cPrice.setAttribute('style','white-space: pre;')
-          cPrice.textContent="$0.60\r\n30mins"
-          cPrice.setAttribute('class', 'cPrice')
-          bodyL.appendChild(cPrice);
-          }
-          else
-          {
-          const cPrice=document.createElement('h1');
-          cPrice.setAttribute('style','white-space: pre;')
-          cPrice.textContent=`$1.20\r\n30mins (Mon to Sat 7am to 5pm)
-                              $0.60\r\n30mins (Other hours)`;
-                              cPrice.setAttribute('class', 'cPrice')
-                              bodyL.appendChild(cPrice);
+          if(index1==null){
+            const cPrice=document.createElement('h1')
+            cPrice.setAttribute('style','white-space: pre;')
+            cPrice.textContent="$0.60\r\n30mins"
+            cPrice.setAttribute('class', 'cPrice')
+            bodyL.appendChild(cPrice);
+          } else{
+            const cPrice=document.createElement('h1');
+            cPrice.setAttribute('style','white-space: pre;')
+            cPrice.textContent=`$1.20\r\n30mins (Mon to Sat 7am to 5pm)
+                                $0.60\r\n30mins (Other hours)`;
+                                cPrice.setAttribute('class', 'cPrice')
+                                bodyL.appendChild(cPrice);
           }
 
           //bodyR
@@ -173,32 +161,38 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
             cHeight.textContent = data.result.records[tempcarparkindex].gantry_height;
             footer.appendChild(cHeight);
           }
-          }
-          
+        }
+      }
 
-        }
-      
-        function clickHandler(cnum){
-          var i=hMap.get(cnum)
-          document.getElementById('carparkDisplays').style.display = "none";
-          document.getElementById('sidebarnext').style.display = "block";
-          const slots=document.getElementById('slots')
-          const payy=document.getElementById('payy')
-          slots.textContent=data1.items[0].carpark_data[i].carpark_info[0].lots_available
-          let index1= centralcpark.get(cnum);
-        if(index1==null)
-        {
-         payy.textContent="Rates: "+"$0.60 / 30mins"
-        }
-        else
-        {
-         payy.textContent="Rates: "+`$1.20 / 30mins (Mon to Sat 7am to 5pm)
-                          $0.60 / 30mins (Other hours)`;
-        }
-        document.getElementById('cparknumm').textContent=cnum;
-        }
+      function clickHandler(cnum,j1){
+        var i=hMap.get(cnum)
+        document.getElementById('carparkDisplays').style.display = "none";
+        document.getElementById('sidebarnext').style.display = "block";
 
-      }   
+
+        let index1= centralcpark.get(cnum);
+
+        document.getElementById('sdCNum').textContent=cnum;
+        console.log("test");
+
+        if(index1==null) {
+          document.getElementsByClassName('sdCPrice')[0].textContent="$0.60\r\n30mins";
+        } else {
+          document.getElementsByClassName('cdCPrice')[0].textContent=  `$1.20\r\n30mins (Mon to Sat 7am to 5pm)
+          $0.60\r\n30mins (Other hours)`;                      
+        }
+        // let i = hMap.get(cnum);
+        // Changing the text on the sidebar
+        document.getElementById('sdnAddt').textContent = data.result.records[j1].address;
+        document.getElementById('sdnBasement').textContent="Basement: "+data.result.records[j1].car_park_basement;
+        document.getElementById('sdnDecks').textContent="No. of decks: "+data.result.records[j1].car_park_decks;
+        document.getElementById('sdnCPType').textContent="Carpark Type: "+data.result.records[j1].car_park_type;
+        document.getElementById('sdnGHeight').textContent="Gantry Height: "+data.result.records[j1].gantry_height;
+        document.getElementById('sdnNPark').textContent="Night Parking: "+data.result.records[j1].night_parking;
+        document.getElementById('sdnFPark').textContent="Free Parking: "+data.result.records[j1].free_parking;
+        document.getElementById('sdnAvail').textContent="Lots Available: "+data1.items[0].carpark_data[i].carpark_info[0].lots_available+" slots";
+      }
+    }   
     request.send();
   }
 getData();
