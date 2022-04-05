@@ -137,18 +137,31 @@ function initMap() {
                         index2 = hMap.get(selectedcarparkNum);
                     }
                 }
+                let displayAddress = ggdata.result.records[foundindex].address;
+                let displayCPNum = ggdata.result.records[foundindex].car_park_no;
+                let displayCPType = ggdata.result.records[foundindex].car_park_type;
+                let displayNightParking = ggdata.result.records[foundindex].night_parking;
+                let displayGantryHeight  =  ggdata.result.records[foundindex].gantry_height;
+                let displayCPBasement = ggdata.result.records[foundindex].car_park_basement;
+                let displayCPDecks = ggdata.result.records[foundindex].car_park_decks;
+                let displayFreeParking = ggdata.result.records[foundindex].free_parking
+                let displaySlots = data1.items[0].carpark_data[index2].carpark_info[0].lots_available;
+
+                if (document.getElementById("checkbox1").checked == false){
+                    document.getElementById('carparkDisplays').style.display="none"; //hide
+                    document.getElementById('sidebarnext').style.display="block"; //display
+                    document.getElementById('sdCNum').textContent=selectedcarparkNum;
+                    document.getElementById('sdnAddt').textContent = displayAddress;
+                    document.getElementById('sdnBasement').textContent="Basement: "+displayCPBasement;
+                    document.getElementById('sdnDecks').textContent="No. of decks: "+displayCPDecks;
+                    document.getElementById('sdnCPType').textContent="Carpark Type: "+displayCPType;
+                    document.getElementById('sdnGHeight').textContent="Gantry Height: "+displayGantryHeight;
+                    document.getElementById('sdnNPark').textContent="Night Parking: "+displayNightParking;
+                    document.getElementById('sdnFPark').textContent="Free Parking: "+displayFreeParking;
+                    document.getElementById('sdnAvail').textContent="Lots Available: "+ displaySlots +" slots";
+ 
+
                 // Current APi
-                document.getElementById('carparkDisplays').style.display="none"; //hide
-                document.getElementById('sidebarnext').style.display="block"; //display
-                document.getElementById('sdCNum').textContent=selectedcarparkNum;
-                document.getElementById('sdnAddt').textContent = ggdata.result.records[foundindex].address;
-                document.getElementById('sdnBasement').textContent="Basement: "+ggdata.result.records[foundindex].car_park_basement;
-                document.getElementById('sdnDecks').textContent="No. of decks: "+ggdata.result.records[foundindex].car_park_decks;
-                document.getElementById('sdnCPType').textContent="Carpark Type: "+ggdata.result.records[foundindex].car_park_type;
-                document.getElementById('sdnGHeight').textContent="Gantry Height: "+ggdata.result.records[foundindex].gantry_height;
-                document.getElementById('sdnNPark').textContent="Night Parking: "+ggdata.result.records[foundindex].night_parking;
-                document.getElementById('sdnFPark').textContent="Free Parking: "+ggdata.result.records[foundindex].free_parking;
-                document.getElementById('sdnAvail').textContent="Lots Available: "+data1.items[0].carpark_data[index2].carpark_info[0].lots_available+" slots"
 
                 document.getElementById("getDirectionButton").addEventListener("click", function(){
                     var cv1 = new SVY21();
@@ -159,47 +172,70 @@ function initMap() {
                     location.href = tempurl;
                 })
 
-                let displayAddress = ggdata.result.records[foundindex].address;
-                let displayCPNum = ggdata.result.records[foundindex].car_park_no;
-                let displayCPType = ggdata.result.records[foundindex].car_park_type;
-                let displayNightParking = ggdata.result.records[foundindex].night_parking;
-                let displayGantryHeight  =  ggdata.result.records[foundindex].gantry_height;
-                let displayCPBasement = ggdata.result.records[foundindex].car_park_basement;
-
-                if (document.getElementById("checkbox1").checked == false){
                     // Outputting to console
-                    console.log("Address:", displayAddress);
-                    console.log("Car Park No.:", displayCPNum);
-                    console.log("Car Park Type:", displayCPType);
-                    console.log("Night Parking Available:", displayNightParking);
-                    console.log("Gantry Height:", displayGantryHeight, "m");
-                    console.log("Is there a basement level:", displayCPBasement);
+                    // console.log("Address:", displayAddress);
+                    // console.log("Car Park No.:", displayCPNum);
+                    // console.log("Car Park Type:", displayCPType);
+                    // console.log("Night Parking Available:", displayNightParking);
+                    // console.log("Gantry Height:", displayGantryHeight, "m");
+                    // console.log("Is there a basement level:", displayCPBasement);
                     // Changing the text on sidebar
-                    document.getElementById('add').textContent = displayAddress;
-
+                    
                     document.getElementById('checkbox1').addEventListener('click', function(){
+                        console.log("clicked"+ i);
                         document.querySelector('.compare-btn').style.display='none';
                         document.querySelector('.add-section').style.display='none';
                         if(document.getElementById('checkbox1').checked){
-                            add1 = displayAddress;
+                            console.log("checked" + i);
+                            // store main carpark info here
+                            sessionStorage.setItem('main_displayAddress', displayAddress);
+                            sessionStorage.setItem('main_displayCPType', displayCPType);
+
+
+                            console.log('MAIN_Storeddd' + sessionStorage.getItem('main_displayAddress'));
+        
                             document.querySelector('.compare-btn').style.display='block';
                             document.querySelector('.add-section').style.display='block';
-                            document.getElementById('compare-btn').addEventListener('click', function (){
-                                document.querySelector('.bg-modal').style.display="flex";
-                                document.getElementById('add2').textContent = displayAddress;
-                            });
-                            document.getElementById('btn-modal-close').addEventListener('click', function(){
-                                document.querySelector('.bg-modal').style.display='none';
-                            });
+                            
                         };
                     });
                 } else{
-                    document.getElementById('add3').textContent = displayAddress;
-                    document.getElementById('add4').textContent = displayAddress;
+                    // Display Info on the modal HERE
+                    console.log("CLICKED")
+                    let main_displayAddress = sessionStorage.getItem('main_displayAddress');
+                    let main_displayCPType = sessionStorage.getItem('main_displayCPType');
+
+
+                    console.log('main='+main_displayAddress);
+                    console.log('compare='+displayAddress);
+
+                    document.getElementById('compare_addr').textContent = displayAddress;
+
+
+                    document.getElementById('compare-btn').addEventListener('click', function (){
+                        document.querySelector('.bg-modal').style.display="flex";
+                        
+                        console.log('getStored_Main' + sessionStorage.getItem('main_displayAddress'));
+                        console.log('getCompared' + sessionStorage.getItem('main_displayAddress'));
+                        // Main carpark of the modal
+                        document.getElementById('main_displayAddress_modal').textContent = main_displayAddress;
+                        document.getElementById('main_displayCPType_modal').textContent = main_displayCPType;
+
+
+                        // compared carpark info of modal
+                        console.log('display'+ displayAddress);
+                        document.getElementById('compare_displayAddress_modal').textContent = displayAddress;
+                        document.getElementById('compare_displayCPType_modal').textContent = displayCPType;
+
+                
+                    });
+                    document.getElementById('btn-modal-close').addEventListener('click', function(){
+                        document.querySelector('.bg-modal').style.display='none';
+                    });
                 }
 
+
                 // Changing the text on sidebar
-                document.getElementById('add').textContent = displayAddress;
             });
 
         }
