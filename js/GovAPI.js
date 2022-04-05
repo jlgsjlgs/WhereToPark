@@ -275,12 +275,12 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
             let cnum2=cardArray[v].getAttribute('id')
             let index1 = hMap.get(cnum1);
             let index2 = hMap.get(cnum2);
-            if (data1.items[0].carpark_data[index1].carpark_info[0].lots_available > data1.items[0].carpark_data[index2].carpark_info[0].lots_available){   
+            if (parseInt(data1.items[0].carpark_data[index1].carpark_info[0].lots_available) < parseInt(data1.items[0].carpark_data[index2].carpark_info[0].lots_available)){   
               tmp = cardArray[u];  
               cardArray[u] = cardArray[v];  
               cardArray[v] = tmp;  
             }  
-          }  
+          }
         }
         //slotHandler
         container.innerHTML = '';
