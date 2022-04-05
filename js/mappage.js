@@ -27,7 +27,7 @@ function calculatePrice(int){
     if ((centralcpark.get(cnum) != null) && (d.getDay() != 0) && (7< d.getHours()) && (d.getHours() <17)){
         rate = 1.2 * 2; // per hour instead of per 30 mins
     }
-    console.log(rate * int);
+    console.log(parseFloat(rate*int).toFixed(2));
 }
 
 function getCarparkLocations(){
