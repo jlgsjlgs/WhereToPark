@@ -1,6 +1,7 @@
 //javascript for carpark card displays (incl govAPIRef code)
 const app = document.getElementById('carparkDisplays')
 
+
 const filterbtn = document.createElement('div')
 const container = document.createElement('div')
 filterbtn.setAttribute('class', 'filterbtn')
@@ -99,6 +100,8 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
         firstAPIhmap.set(data.result.records[i].car_park_no, i);
       }
 
+      const tempcarparkindexhash = new Map();
+
       for(let u=0; u<markers.length; u++){  // for how many markers are shown    
         tempcarparkindex= firstAPIhmap.get(markers[u].title);
 
@@ -116,8 +119,9 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           card.setAttribute('class', 'card')
           card.setAttribute('id', cNum)
           container.appendChild(card)
+          tempcarparkindexhash.set(card.id, tempcarparkindex);
 
-          card.addEventListener("click",function(){ clickHandler(card.id, tempcarparkindex); });
+          card.addEventListener("click",function(){ clickHandler(card.id, tempcarparkindexhash.get(card.id)); });
           distSort.addEventListener("click",function(){ distSortHandler() });
           priceSort.addEventListener("click",function(){ priceSortHandler() });
           slotSort.addEventListener("click",function(){ slotSortHandler() });
@@ -188,10 +192,10 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           walkingIcon.setAttribute('class', 'walkingIcon')
           bodyR.appendChild(walkingIcon);
         
-          //text 
+          // text 
           const walkDist = document.createElement('h1')
           walkDist.setAttribute('style','white-space: pre;')
-          walkDist.textContent='1 min\r\nto destination'
+          walkDist.textContent= parseFloat(carparkdis.get(cNum)).toFixed(2) + "km";
           bodyR.appendChild(walkDist);
 
           //footer content
@@ -226,7 +230,6 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
         document.getElementById('carparkDisplays').style.display = "none";
         document.getElementById('sidebarnext').style.display = "block";
 
-
         let index1= centralcpark.get(cnum);
 
         document.getElementById('sdCNum').textContent=cnum;
@@ -259,11 +262,42 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
       }
 
       function distSortHandler() {
-        alert('Hello3');
+        //sorting logic
+        for (let u = 0; u < cArrayCount; u++){  
+          for (let v = u + 1; v < cArrayCount; v++){  
+            let tmp = 0; 
+            let cnum1=cardArray[u].getAttribute('id')
+            let cnum2=cardArray[v].getAttribute('id')
+            let dist1 = carparkdis.get(cnum1);
+            let dist2 = carparkdis.get(cnum2);
+            if (dist1 > dist2){   
+              tmp = cardArray[u];  
+              cardArray[u] = cardArray[v];  
+              cardArray[v] = tmp;  
+            }  
+          }
+        }
+        //slotHandler
+        container.innerHTML = '';
+        for (let u = 0; u < cArrayCount; u++){
+          container.appendChild(cardArray[u]);
+        } 
       }
 
       function priceSortHandler() {
-        alert('Hello3');
+        container.innerHTML = '';
+        for (let u=0; u<cArrayCount;u++){
+          let cnum1=cardArray[u].getAttribute('id');
+          if (centralcpark.get(cnum1) == null){
+            container.appendChild(cardArray[u]);
+          } 
+        }
+        for (let u=0; u<cArrayCount;u++){
+          let cnum1=cardArray[u].getAttribute('id');
+          if (centralcpark.get(cnum1) != null){
+            container.appendChild(cardArray[u]);
+          } 
+        }
       }
       
       function slotSortHandler(){
@@ -292,5 +326,3 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
     request.send();
   }
 getData();
-
-

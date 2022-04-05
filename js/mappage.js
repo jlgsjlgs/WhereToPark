@@ -4,6 +4,7 @@ const api_govforgmap = 'https://data.gov.sg/api/action/datastore_search?resource
 
 var resultLatLng = new Array();
 var resultCarparkName = new Array();
+var carparkdis = new Map();
 /////////////////////////
 var markers = [];
 ////////////////////////////
@@ -87,6 +88,7 @@ function initMap() {
                 marker.setMap(null);
             } else {
                 markers.push(marker);
+                carparkdis.set(marker.title, haversine_distance(locationmarker,marker));
             }
         }
 
