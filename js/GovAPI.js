@@ -158,7 +158,18 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
 
             //height text
             const cHeight = document.createElement('h1');
-            cHeight.textContent = data.result.records[tempcarparkindex].gantry_height;
+            cHeight.textContent = data.result.records[tempcarparkindex].gantry_height + "m";
+            footer.appendChild(cHeight);
+          } else {
+            //carpark icon
+            const carIcon = document.createElement('img')
+            carIcon.src = 'img/carparkHeight_icon.png'
+            carIcon.setAttribute('class', 'carIcon')
+            footer.appendChild(carIcon);
+
+            //height text
+            const cHeight = document.createElement('h1');
+            cHeight.textContent = "No height limit";
             footer.appendChild(cHeight);
           }
         }
@@ -190,6 +201,15 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
         document.getElementById('sdnNPark').textContent="Night Parking: "+data.result.records[j1].night_parking;
         document.getElementById('sdnFPark').textContent="Free Parking: "+data.result.records[j1].free_parking;
         document.getElementById('sdnAvail').textContent="Lots Available: "+data1.items[0].carpark_data[i].carpark_info[0].lots_available+" slots";
+
+        document.getElementById("getDirectionButton").addEventListener("click", function(){
+          var cv1 = new SVY21();
+          let templatlng = cv1.computeLatLon(data.result.records[j1].y_coord, data.result.records[j1].x_coord);
+          let templat = templatlng.lat;
+          let templng = templatlng.lon;
+          let tempurl = "https://www.google.com/maps/search/?api=1&query=" + templat + "," + templng;
+          location.href = tempurl;
+        })
       }
     }   
     request.send();

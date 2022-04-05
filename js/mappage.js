@@ -139,6 +139,14 @@ function initMap() {
                 document.getElementById('sdnFPark').textContent="Free Parking: "+ggdata.result.records[foundindex].free_parking;
                 document.getElementById('sdnAvail').textContent="Lots Available: "+data1.items[0].carpark_data[index2].carpark_info[0].lots_available+" slots"
 
+                document.getElementById("getDirectionButton").addEventListener("click", function(){
+                    var cv1 = new SVY21();
+                    let templatlng = cv1.computeLatLon(ggdata.result.records[foundindex].y_coord, ggdata.result.records[foundindex].x_coord);
+                    let templat = templatlng.lat;
+                    let templng = templatlng.lon;
+                    let tempurl = "https://www.google.com/maps/search/?api=1&query=" + templat + "," + templng;
+                    location.href = tempurl;
+                })
 
                 let displayAddress = ggdata.result.records[foundindex].address;
                 let displayCPNum = ggdata.result.records[foundindex].car_park_no;
@@ -199,8 +207,6 @@ function haversine_distance(mk1, mk2) {
     var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
     return d;
 }
-
-
 
 //Convert X-Y Coordinates over to LatLng for Google Maps
 var SVY21 = (function(){
