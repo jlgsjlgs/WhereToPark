@@ -173,12 +173,11 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
         let index1= centralcpark.get(cnum);
 
         document.getElementById('sdCNum').textContent=cnum;
-        console.log("test");
 
         if(index1==null) {
           document.getElementsByClassName('sdCPrice')[0].textContent="$0.60\r\n30mins";
         } else {
-          document.getElementsByClassName('cdCPrice')[0].textContent=  `$1.20\r\n30mins (Mon to Sat 7am to 5pm)
+          document.getElementsByClassName('sdCPrice')[0].textContent=  `$1.20\r\n30mins (Mon to Sat 7am to 5pm)
           $0.60\r\n30mins (Other hours)`;                      
         }
         // let i = hMap.get(cnum);

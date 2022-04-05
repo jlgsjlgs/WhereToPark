@@ -146,13 +146,39 @@ function initMap() {
                 let displayNightParking = ggdata.result.records[foundindex].night_parking;
                 let displayGantryHeight  =  ggdata.result.records[foundindex].gantry_height;
                 let displayCPBasement = ggdata.result.records[foundindex].car_park_basement;
-                // Outputting to console
-                console.log("Address:", displayAddress);
-                console.log("Car Park No.:", displayCPNum);
-                console.log("Car Park Type:", displayCPType);
-                console.log("Night Parking Available:", displayNightParking);
-                console.log("Gantry Height:", displayGantryHeight, "m");
-                console.log("Is there a basement level:", displayCPBasement);
+
+                if (document.getElementById("checkbox1").checked == false){
+                    // Outputting to console
+                    console.log("Address:", displayAddress);
+                    console.log("Car Park No.:", displayCPNum);
+                    console.log("Car Park Type:", displayCPType);
+                    console.log("Night Parking Available:", displayNightParking);
+                    console.log("Gantry Height:", displayGantryHeight, "m");
+                    console.log("Is there a basement level:", displayCPBasement);
+                    // Changing the text on sidebar
+                    document.getElementById('add').textContent = displayAddress;
+
+                    document.getElementById('checkbox1').addEventListener('click', function(){
+                        document.querySelector('.compare-btn').style.display='none';
+                        document.querySelector('.add-section').style.display='none';
+                        if(document.getElementById('checkbox1').checked){
+                            add1 = displayAddress;
+                            document.querySelector('.compare-btn').style.display='block';
+                            document.querySelector('.add-section').style.display='block';
+                            document.getElementById('compare-btn').addEventListener('click', function (){
+                                document.querySelector('.bg-modal').style.display="flex";
+                                document.getElementById('add2').textContent = displayAddress;
+                            });
+                            document.getElementById('btn-modal-close').addEventListener('click', function(){
+                                document.querySelector('.bg-modal').style.display='none';
+                            });
+                        };
+                    });
+                } else{
+                    document.getElementById('add3').textContent = displayAddress;
+                    document.getElementById('add4').textContent = displayAddress;
+                }
+
                 // Changing the text on sidebar
                 document.getElementById('add').textContent = displayAddress;
             });
