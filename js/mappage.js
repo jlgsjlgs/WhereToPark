@@ -19,7 +19,16 @@ function openCPDisplay(){
     document.getElementById('sidebarnext').style.display="none";
     document.getElementById('carparkDisplays').style.display="block";
 }
-
+function calculatePrice(int){
+    const d = new Date();
+    let rate = 0.6 * 2;
+    let cnum = document.getElementById('sdCNum').textContent;
+    console.log(cnum);
+    if ((centralcpark.get(cnum) != null) && (d.getDay() != 0) && (7< d.getHours()) && (d.getHours() <17)){
+        rate = 1.2 * 2; // per hour instead of per 30 mins
+    }
+    console.log(rate * int);
+}
 
 function getCarparkLocations(){
     var request = new XMLHttpRequest();

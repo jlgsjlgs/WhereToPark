@@ -1,6 +1,6 @@
 //javascript for carpark card displays (incl govAPIRef code)
 const app = document.getElementById('carparkDisplays')
-
+const centralcpark= new Map();
 
 const filterbtn = document.createElement('div')
 const container = document.createElement('div')
@@ -67,7 +67,7 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
       let len2 = data1.items[0].carpark_data.length; //length of second api
 
       //hashmap to store all the carparks that have exceptions in carpark pricing
-      const centralcpark= new Map();
+  
       centralcpark.set('ACB', 0);
       centralcpark.set('BBB', 1);
       centralcpark.set('BRB1',2);
