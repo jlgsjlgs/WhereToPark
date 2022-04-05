@@ -1,10 +1,44 @@
 //javascript for carpark card displays (incl govAPIRef code)
 const app = document.getElementById('carparkDisplays')
 
+const filterbtn = document.createElement('div')
 const container = document.createElement('div')
+filterbtn.setAttribute('class', 'filterbtn')
 container.setAttribute('class', 'container')
  
+app.appendChild(filterbtn)
 app.appendChild(container)
+
+//Creating filter buttons (distance, rate, avail slots)
+//create separate div (text) for 'sort by' text within filterbtn div
+const text = document.createElement('div')
+text.setAttribute('class', 'text')
+text.textContent="Sort by:"
+filterbtn.appendChild(text)
+
+//create separate div (btns) for all 3 buttons within filterbtn div
+const btns = document.createElement('div')
+btns.setAttribute('class', 'btns')
+filterbtn.appendChild(btns)
+
+//create distSort button and append to 'btns' div
+const distSort = document.createElement('div')
+distSort.setAttribute('class', 'distSort')
+distSort.textContent="Distance"
+btns.appendChild(distSort)
+
+//create priceSort button and append to 'btns' div
+const priceSort = document.createElement('div')
+priceSort.setAttribute('class', 'priceSort')
+priceSort.textContent="Price"
+btns.appendChild(priceSort)
+
+
+//create slotSort button and append to 'btns' div
+const slotSort = document.createElement('div')
+slotSort.setAttribute('class', 'slotSort')
+slotSort.textContent="Available Slots"
+btns.appendChild(slotSort)
 const hMap = new Map(); //creating hashmap
 
 const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&limit=5000'
@@ -55,6 +89,11 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
         hMap.set(data1.items[0].carpark_data[i].carpark_number,i); //data1.items[0].carpark_data[i].carpark_number
       }
 
+      //array to store the cards for filter option
+      const cardArray = [];
+      //index to keep track of length of card array 
+      let cArrayCount=0;
+
       const firstAPIhmap = new Map();
       for (let i=0; i<len1;i++){
         firstAPIhmap.set(data.result.records[i].car_park_no, i);
@@ -79,6 +118,9 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           container.appendChild(card)
 
           card.addEventListener("click",function(){ clickHandler(card.id, tempcarparkindex); });
+          distSort.addEventListener("click",function(){ distSortHandler() });
+          priceSort.addEventListener("click",function(){ priceSortHandler() });
+          slotSort.addEventListener("click",function(){ slotSortHandler() });
 
           //creating 3diff divs-header, body, footer + the lines in between
           const header = document.createElement('div');
@@ -98,7 +140,11 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           card.appendChild(body);
           card.appendChild(hr2);
           card.appendChild(footer);
-  
+
+          //adding the card to the card array created in line 148
+          cardArray[cArrayCount]=card;
+          cArrayCount++;
+    
 
           //header content
           const cName = document.createElement('h1');
@@ -210,6 +256,37 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           let tempurl = "https://www.google.com/maps/search/?api=1&query=" + templat + "," + templng;
           location.href = tempurl;
         })
+      }
+
+      function distSortHandler() {
+        alert('Hello3');
+      }
+
+      function priceSortHandler() {
+        alert('Hello3');
+      }
+      
+      function slotSortHandler(){
+        //sorting logic
+        for (let u = 0; u < cArrayCount; u++){  
+          for (let v = u + 1; v < cArrayCount; v++){  
+            let tmp = 0; 
+            let cnum1=cardArray[u].getAttribute('id')
+            let cnum2=cardArray[v].getAttribute('id')
+            let index1 = hMap.get(cnum1);
+            let index2 = hMap.get(cnum2);
+            if (data1.items[0].carpark_data[index1].carpark_info[0].lots_available > data1.items[0].carpark_data[index2].carpark_info[0].lots_available){   
+              tmp = cardArray[u];  
+              cardArray[u] = cardArray[v];  
+              cardArray[v] = tmp;  
+            }  
+          }  
+        }
+        //slotHandler
+        container.innerHTML = '';
+        for (let u = 0; u < cArrayCount; u++){
+          container.appendChild(cardArray[u]);
+        }   
       }
     }   
     request.send();
