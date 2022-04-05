@@ -325,6 +325,11 @@ p {
   font-size: 23px;
 }
 
+#sdnAddt {
+  font-size:15px;  
+  padding-top:20px;
+}
+
 .locIcon{
   height:40px;
   width:45px;
