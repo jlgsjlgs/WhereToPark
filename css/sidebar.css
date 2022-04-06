@@ -15,7 +15,7 @@ h1{
   font-size: 30px;
 }
 h2{
-  margin: 10px;
+  margin: 8px;
 }
 .slots{
   font-size: 35px;
@@ -333,6 +333,7 @@ p {
 #sdnAddt {
   font-size:25px;  
   padding: 5px;
+  padding-top: 8px;
   margin: 2px;
 }
 
@@ -398,14 +399,14 @@ p {
 
   height: 90%;
   width: 40%;
-  padding: 20px;
+  padding: 5px;
   padding-top: 14px;
   margin-top: 20px;
   margin: 20px 5px 30px 5px;
   background-color: rgba(255, 192, 203, .2);
-  font-size: 40px;
   border: solid 2px black;
   text-align: left;
+  overflow-y: scroll;
 
 }
 .compare-section{
@@ -416,7 +417,11 @@ p {
   text-align: left;
   margin: 5px;
 }
+.modal-content, h3{
+  font-size: 23px;
+  margin: 10px;
 
+}
 .add-section{
   display: none;
   align-items: left;

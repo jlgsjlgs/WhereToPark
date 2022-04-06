@@ -137,6 +137,7 @@ function initMap() {
                         index2 = hMap.get(selectedcarparkNum);
                     }
                 }
+
                 let displayAddress = ggdata.result.records[foundindex].address;
                 let displayCPNum = ggdata.result.records[foundindex].car_park_no;
                 let displayCPType = ggdata.result.records[foundindex].car_park_type;
@@ -158,7 +159,7 @@ function initMap() {
                     document.getElementById('sdnGHeight').textContent="Gantry Height: "+displayGantryHeight;
                     document.getElementById('sdnNPark').textContent="Night Parking: "+displayNightParking;
                     document.getElementById('sdnFPark').textContent="Free Parking: "+displayFreeParking;
-                    document.getElementById('sdnAvail').textContent="Lots Available: "+ displaySlots +" slots";
+                    document.getElementById('sdnAvail').textContent="Lots Available: "+ data1.items[0].carpark_data[index2].carpark_info[0].lots_available +" slots";
  
 
                 // Current APi
@@ -187,9 +188,22 @@ function initMap() {
                         document.querySelector('.add-section').style.display='none';
                         if(document.getElementById('checkbox1').checked){
                             console.log("checked" + i);
-                            // store main carpark info here
+                            // store main carpark info here (after checking box)
                             sessionStorage.setItem('main_displayAddress', displayAddress);
                             sessionStorage.setItem('main_displayCPType', displayCPType);
+                            sessionStorage.setItem('main_displayCPDecks', displayCPDecks);
+                            sessionStorage.setItem('main_displayCPBasement', displayCPBasement);
+                            sessionStorage.setItem('main_displayGantryHeight', displayGantryHeight);
+                            sessionStorage.setItem('main_displayNightParking', displayNightParking);
+                            sessionStorage.setItem('main_displayFreeParking', displayFreeParking);
+                            sessionStorage.setItem('main_displaySlots', displaySlots);
+
+
+                            
+                            
+
+
+
 
 
                             console.log('MAIN_Storeddd' + sessionStorage.getItem('main_displayAddress'));
@@ -204,6 +218,14 @@ function initMap() {
                     console.log("CLICKED")
                     let main_displayAddress = sessionStorage.getItem('main_displayAddress');
                     let main_displayCPType = sessionStorage.getItem('main_displayCPType');
+                    let main_displayCPDecks  = sessionStorage.getItem('main_displayCPDecks');
+                    let main_displayCPBasement  = sessionStorage.getItem('main_displayCPBasement');
+                    let main_displayGantryHeight  = sessionStorage.getItem('main_displayGantryHeight');
+                    let main_displayNightParking  = sessionStorage.getItem('main_displayNightParking');
+                    let main_displayFreeParking  = sessionStorage.getItem('main_displayFreeParking');
+                    let main_displaySlots  = sessionStorage.getItem('main_displaySlots');
+
+
 
 
                     console.log('main='+main_displayAddress);
@@ -220,13 +242,23 @@ function initMap() {
                         // Main carpark of the modal
                         document.getElementById('main_displayAddress_modal').textContent = main_displayAddress;
                         document.getElementById('main_displayCPType_modal').textContent = main_displayCPType;
-
+                        document.getElementById('main_displayCPDecks_modal').textContent = main_displayCPDecks;
+                        document.getElementById('main_displayCPBasement_modal').textContent = main_displayCPBasement;
+                        document.getElementById('main_displayGantryHeight_modal').textContent = main_displayGantryHeight;
+                        document.getElementById('main_displayNightParking_modal').textContent = main_displayNightParking;
+                        document.getElementById('main_displayFreeParking_modal').textContent = main_displayFreeParking;
+                        document.getElementById('main_displaySlots_modal').textContent = main_displaySlots;
 
                         // compared carpark info of modal
                         console.log('display'+ displayAddress);
                         document.getElementById('compare_displayAddress_modal').textContent = displayAddress;
                         document.getElementById('compare_displayCPType_modal').textContent = displayCPType;
-
+                        document.getElementById('compare_displayCPDecks_modal').textContent = displayCPDecks;
+                        document.getElementById('compare_displayCPBasement_modal').textContent = displayCPBasement;
+                        document.getElementById('compare_displayGantryHeight_modal').textContent = displayGantryHeight;
+                        document.getElementById('compare_displayNightParking_modal').textContent = displayNightParking;
+                        document.getElementById('compare_displayFreeParking_modal').textContent = displayFreeParking;
+                        document.getElementById('compare_displaySlots_modal').textContent = displaySlots;
                 
                     });
                     document.getElementById('btn-modal-close').addEventListener('click', function(){
