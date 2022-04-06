@@ -41,24 +41,47 @@ slotSort.setAttribute('class', 'slotSort')
 slotSort.textContent="Available Slots"
 btns.appendChild(slotSort)
 
+//create nParkSort button and append to 'btns' div
 const nParkSort = document.createElement('div')
-nParkSort.setAttribute('class', 'nParkSlot')
+nParkSort.setAttribute('class', 'nParkSort')
 nParkSort.textContent="Night Parking"
 btns.appendChild(nParkSort)
 var nParkSelect = document.createElement("SELECT");
 nParkSelect.setAttribute("id", "nParkSelect");
 nParkSort.appendChild(nParkSelect);
 var yesNPark = document.createElement("option");
-yesNPark.setAttribute("class", "NParkopt");
 var yesOptionNPark = document.createTextNode("Yes");
 yesNPark.appendChild(yesOptionNPark);
 nParkSelect.appendChild(yesNPark);
 var noNPark = document.createElement("option");
-noNPark.setAttribute("class", "NParkopt");
 var noOptionNPark = document.createTextNode("No");
 noNPark.appendChild(noOptionNPark);
 nParkSelect.appendChild(noNPark);
 
+//create cParkSort button and append to 'btns' div
+const cParkSort = document.createElement('div')
+cParkSort.setAttribute('class', 'cParkSort')
+cParkSort.textContent="CarPark Type"
+btns.appendChild(cParkSort)
+var cParkSelect = document.createElement("SELECT");
+cParkSelect.setAttribute("id", "cParkSelect");
+cParkSort.appendChild(cParkSelect);
+var surfCPark = document.createElement("option");
+var surfCParkOpt = document.createTextNode("SURFACE CAR PARK");
+surfCPark.appendChild(surfCParkOpt);
+cParkSelect.appendChild(surfCPark);
+var multiSCPark = document.createElement("option");
+var multiSCParkOpt = document.createTextNode("MULTI-STOREY CAR PARK");
+multiSCPark.appendChild(multiSCParkOpt);
+cParkSelect.appendChild(multiSCPark);
+var baseCPark = document.createElement("option");
+var baseCParkOpt = document.createTextNode("BASEMENT CAR PARK");
+baseCPark.appendChild(baseCParkOpt);
+cParkSelect.appendChild(baseCPark);
+var coveredCPark = document.createElement("option");
+var coveredCParkOpt = document.createTextNode("COVERED CAR PARK");
+coveredCPark.appendChild(coveredCParkOpt);
+cParkSelect.appendChild(coveredCPark);
 
 const hMap = new Map(); //creating hashmap
 
@@ -146,6 +169,7 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           priceSort.addEventListener("click",function(){ priceSortHandler() });
           slotSort.addEventListener("click",function(){ slotSortHandler() });
           nParkSelect.addEventListener("change",function(){ nParkSelectSortHandler() });
+          cParkSelect.addEventListener("change",function(){ cParkSelectSortHandler() });
 
           //creating 3diff divs-header, body, footer + the lines in between
           const header = document.createElement('div');
@@ -382,6 +406,52 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           }
         }
       }
+      
+      function cParkSelectSortHandler(){
+        if(cParkSelect.value=="SURFACE CAR PARK"){
+          container.innerHTML = '';
+          for (let u=0; u<cArrayCount;u++){
+            let cnum1=cardArray[u].getAttribute('id');
+            let j1=tempcarparkindexhash.get(cnum1)
+            if ( data.result.records[j1].car_park_type == "SURFACE CAR PARK"){
+              container.appendChild(cardArray[u]);
+            } 
+        }
+      }
+
+        if(cParkSelect.value=="MULTI-STOREY CAR PARK"){
+          container.innerHTML = '';
+          for (let u=0; u<cArrayCount;u++){
+            let cnum1=cardArray[u].getAttribute('id');
+            let j1=tempcarparkindexhash.get(cnum1)
+            if ( data.result.records[j1].car_park_type == "MULTI-STOREY CAR PARK"){
+              container.appendChild(cardArray[u]);
+            } 
+        }
+      }
+
+        if(cParkSelect.value=="BASEMENT CAR PARK"){
+          container.innerHTML = '';
+          for (let u=0; u<cArrayCount;u++){
+            let cnum1=cardArray[u].getAttribute('id');
+            let j1=tempcarparkindexhash.get(cnum1)
+            if ( data.result.records[j1].car_park_type == "BASEMENT CAR PARK"){
+              container.appendChild(cardArray[u]);
+            } 
+        }
+      }
+
+        if(cParkSelect.value=="COVERED CAR PARK"){
+          container.innerHTML = '';
+          for (let u=0; u<cArrayCount;u++){
+            let cnum1=cardArray[u].getAttribute('id');
+            let j1=tempcarparkindexhash.get(cnum1)
+            if ( data.result.records[j1].car_park_type == "COVERED CAR PARK"){
+              container.appendChild(cardArray[u]);
+            } 
+        }
+      }
+    }
 
     }   
     request.send();
