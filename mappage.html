@@ -42,7 +42,7 @@
         <button id="openCPDisplay" onclick="openCPDisplay()">Choose Carpark</button>
       </div>
 
-      <div class='sdnHead'><h1 id="sdCNum"></h1></div>
+      <div class='sdnHead'><h1 id="sdnAddt"></h1></div>
 
       <div class='sdnBody'>
         <div class='sdnBodyL'>
@@ -58,11 +58,11 @@
       </div>
 
       <hr class="horiLine">
+      <div class="sdnAdd">
+        <h1 style="white-space: pre">Carpark Id: </h1>
+        <h1 id="sdCNum" style="white-space: pre"></h1>
+      </div>
       <div class='sdnFooter'>
-        <div class="sdnAdd">
-          <img src="./img/istockphoto-1193451471-612x612.jpeg" class="locIcon">
-          <h1 id="sdnAddt" style="white-space: pre"></h1>
-        </div>
         <!-- <hr class="horiLine"> -->
         <h1 id="sdnBasement" style="white-space: pre">Basement: </h1>
         <h1 id="sdnDecks" style="white-space: pre">No. of decks: </h1>
@@ -71,18 +71,24 @@
         <h1 id="sdnNPark" style="white-space: pre">Night Parking: </h1>
         <h1 id="sdnFPark" style="white-space: pre">Free Parking: </h1>
         <h1 id="sdnAvail" style="white-space: pre"></h1>
+        <div class="priceCalculator">
+          <label for="numHours">Enter number of hours:</label>
+          <input type="number" id="inputTime">
+          <button type="button" id="calculateBtn" onclick="calculatePrice(document.getElementById('inputTime').value)">Calculate</button>
+        </div>
+        <div class="compare-section">
+          <div>
+            <input class="checkbox1" type="checkbox" id="checkbox1" name="checkbox">
+            <label for="checkbox1"> <h2>Compare with</h2></label></input>
+          </div>
+          <div class="add-section">
+            <h2 id="compare_addr"></h2>
+          </div>
+          <button class="compare-btn" id="compare-btn" name="compare-btn">Compare</button>
+        </div>
+
       </div>
 
-      <div class="compare-section">
-        <div>
-          <input class="checkbox1" type="checkbox" id="checkbox1" name="checkbox">
-          <label for="checkbox1"> <h2>Compare with</h2></label></input>
-        </div>
-        <div class="add-section">
-          <h2 id="compare_addr"></h2>
-        </div>
-        <button class="compare-btn" id="compare-btn" name="compare-btn">Compare</button>
-      </div>
 
     </div>
     <div class="bg-modal">
@@ -102,11 +108,7 @@
         </div>
       </div>
       
-      <div class="priceCalculator">
-        <label for="numHours">Enter number of hours:</label>
-        <input type="number" id="inputTime">
-        <button type="button" id="calculateBtn" onclick="calculatePrice(document.getElementById('inputTime').value)">Calculate</button>
-      </div>
+      
   </body>
 </html>
 

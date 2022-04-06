@@ -15,7 +15,7 @@ h1{
   font-size: 30px;
 }
 h2{
-  padding-left: 5px;
+  margin: 10px;
 }
 .slots{
   font-size: 35px;
@@ -30,12 +30,11 @@ h2{
   width: 30%;
   position:fixed;
   z-index: 1;
-  top: 50px;
+  top: 8%;
   right:0;
   background-image: linear-gradient(120deg, #ffe6e6 0%, #ffe4e1 100%);
   opacity: 1;
-  overflow-x: hidden;
-  padding: top 60px;
+  overflow:auto;
   transition: 0.3s;
 
   /* resize: horizontal;
@@ -43,7 +42,7 @@ h2{
 }
 
 .sidebarnext{
-  height: 100vh;
+  height:90vh;
   width: 30%;
   position:fixed;
   z-index: 1;
@@ -52,8 +51,10 @@ h2{
   background-color: white;
   opacity: 1;
   overflow-x: hidden;
-  padding: top 60px;
   transition: 0.3s;
+  overflow-y: scroll;
+  padding-bottom: 50px;
+
   display:none;
 }
 
@@ -71,7 +72,7 @@ h2{
 .sidebar .btn-close{
   position: left;
   padding: 10px 10px 10px 5px;
-  top: 0;
+  top: 10px;
   right:50px;
   color: black;
   font-size: 35px;
@@ -106,7 +107,8 @@ p {
 }
 
 .text{
-  margin:10px;
+  margin:15px;
+  margin-top: 20px;
   text-align: left;
 }
 
@@ -254,7 +256,7 @@ p {
   justify-content: center;
   display:flex;
   background-color: #ffe4e1;
-  height:100px;
+  height:110px;
   /* box-shadow: 2px 4px 25px rgba(0, 0, 0, .1); */
 }
 
@@ -306,8 +308,9 @@ p {
 }
 
 .sdnFooter{
-  padding-top: 30px;
-  
+  padding-top: 0px;
+  margin: 5px;
+
 }
 
 .sdnFooter h1{
@@ -323,11 +326,13 @@ p {
 
 .sdnAdd h1{
   font-size: 23px;
+  padding: 5px;
 }
 
 #sdnAddt {
-  font-size:15px;  
-  padding-top:20px;
+  font-size:25px;  
+  padding: 5px;
+  margin: 2px;
 }
 
 .locIcon{
@@ -345,6 +350,7 @@ p {
 
 .buttondiv {
   margin-top: 8px;
+  padding-top: 10px;
   background-color: #ffe4e1;
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
 
@@ -407,11 +413,13 @@ p {
   height: auto;
   overflow: hidden;
   text-align: left;
+  margin: 5px;
 }
 
 .add-section{
   display: none;
   align-items: left;
+  top: 0px;
 }
 .compare-btn{
   display: none;
