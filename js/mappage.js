@@ -20,14 +20,18 @@ function openCPDisplay(){
     document.getElementById('carparkDisplays').style.display="block";
 }
 function calculatePrice(int){
-    const d = new Date();
-    let rate = 0.6 * 2;
-    let cnum = document.getElementById('sdCNum').textContent;
-    console.log(cnum);
-    if ((centralcpark.get(cnum) != null) && (d.getDay() != 0) && (7< d.getHours()) && (d.getHours() <17)){
-        rate = 1.2 * 2; // per hour instead of per 30 mins
-    }
-    console.log(parseFloat(rate*int).toFixed(2));
+    if(int < 0){
+        document.getElementById('price-result').textContent = "Invalid hours, please try again"
+    }else{
+        const d = new Date();
+        let rate = 0.6 * 2;
+        let cnum = document.getElementById('sdCNum').textContent;
+        console.log(cnum);
+        if ((centralcpark.get(cnum) != null) && (d.getDay() != 0) && (7< d.getHours()) && (d.getHours() <17)){
+            rate = 1.2 * 2; // per hour instead of per 30 mins
+        }
+        document.getElementById('price-result').textContent = "$" + parseFloat(rate*int).toFixed(2); 
+    }    
 }
 
 function getCarparkLocations(){
@@ -137,6 +141,16 @@ function initMap() {
                         index2 = hMap.get(selectedcarparkNum);
                     }
                 }
+
+                //rates
+                let index1 = centralcpark.get(selectedcarparkNum);
+                if(index1==null) {
+                    document.getElementsByClassName('sdCPrice')[0].textContent="$0.60\r\n30mins";
+                } else {
+                    document.getElementsByClassName('sdCPrice')[0].textContent=  `$1.20\r\n30mins (Mon to Sat 7am to 5pm)
+                    $0.60\r\n30mins (Other hours)`;                      
+                }
+
 
                 let displayAddress = ggdata.result.records[foundindex].address;
                 let displayCPNum = ggdata.result.records[foundindex].car_park_no;

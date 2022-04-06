@@ -59,9 +59,10 @@
 
       <hr class="horiLine">
       <div class="sdnAdd">
-        <h1 style="white-space: pre">Carpark Id: </h1>
+        <h1 style="white-space: pre">Carpark ID: </h1>
         <h1 id="sdCNum" style="white-space: pre"></h1>
       </div>
+
       <div class='sdnFooter'>
         <!-- <hr class="horiLine"> -->
         <h1 id="sdnBasement" style="white-space: pre">Basement: </h1>
@@ -71,11 +72,31 @@
         <h1 id="sdnNPark" style="white-space: pre">Night Parking: </h1>
         <h1 id="sdnFPark" style="white-space: pre">Free Parking: </h1>
         <h1 id="sdnAvail" style="white-space: pre"></h1>
-        <div class="priceCalculator">
+        <!-- <div class="priceCalculator">
           <label for="numHours">Enter number of hours:</label>
           <input type="number" id="inputTime">
           <button type="button" id="calculateBtn" onclick="calculatePrice(document.getElementById('inputTime').value)">Calculate</button>
+        </div> -->
+
+        <!-- calculate price -->
+
+        <hr class="horiLine">
+        <div class="price-container">
+          <div class="priceCalculator">
+            <label for="numHours">Enter number of hours:</label>
+            <input type="number" id="inputTime">
+            <button type="button" id="calculateBtn" onclick="calculatePrice(document.getElementById('inputTime').value)">Calculate</button>
+          </div>
+    
+          <div class="price-result-container">
+            <div id="price-result"></div>
+          </div>
         </div>
+
+        <hr class="horiLine">
+
+
+
         <div class="compare-section">
           <div>
             <input class="checkbox1" type="checkbox" id="checkbox1" name="checkbox">
@@ -129,6 +150,9 @@ main_displaySlots -->
 
         </div>
       </div>
+
+      
+      
       
       
   </body>
