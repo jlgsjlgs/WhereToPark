@@ -110,6 +110,7 @@ p {
   margin:15px;
   margin-top: 20px;
   text-align: left;
+  font-size: 15px;
 }
 
 .btns{
@@ -120,11 +121,11 @@ p {
   margin-bottom: 10px;
 }
 
-.distSort, .priceSort, .slotSort{
+.distSort, .priceSort, .slotSort, .nParkSlot{
   /* border:5px solid black; */
   padding:10px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
   background-color: #FFB6C1;
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
   border-radius: 8px;
@@ -132,7 +133,7 @@ p {
   text-align: center;
 }
 
-.distSort:hover, .priceSort:hover, .slotSort:hover {
+.distSort:hover, .priceSort:hover, .slotSort:hover, .nParkSlot:hover {
   box-shadow: 2px 8px 45px rgba(0, 0, 0, .15);
   transform: translate3D(0, -2px, 0);
 }
