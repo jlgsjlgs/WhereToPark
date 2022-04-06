@@ -121,7 +121,7 @@ p {
   margin-bottom: 10px;
 }
 
-.distSort, .priceSort, .slotSort, .nParkSlot{
+.distSort, .priceSort, .slotSort, .nParkSort ,.cParkSort{
   /* border:5px solid black; */
   padding:10px;
   padding-left: 5px;
@@ -133,7 +133,7 @@ p {
   text-align: center;
 }
 
-.distSort:hover, .priceSort:hover, .slotSort:hover, .nParkSlot:hover {
+.distSort:hover, .priceSort:hover, .slotSort:hover, .nParkSlot:hover , .cParkSort:hover {
   box-shadow: 2px 8px 45px rgba(0, 0, 0, .15);
   transform: translate3D(0, -2px, 0);
 }
