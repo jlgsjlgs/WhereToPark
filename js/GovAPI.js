@@ -40,6 +40,26 @@ const slotSort = document.createElement('div')
 slotSort.setAttribute('class', 'slotSort')
 slotSort.textContent="Available Slots"
 btns.appendChild(slotSort)
+
+const nParkSort = document.createElement('div')
+nParkSort.setAttribute('class', 'nParkSlot')
+nParkSort.textContent="Night Parking"
+btns.appendChild(nParkSort)
+var nParkSelect = document.createElement("SELECT");
+nParkSelect.setAttribute("id", "nParkSelect");
+nParkSort.appendChild(nParkSelect);
+var yesNPark = document.createElement("option");
+yesNPark.setAttribute("class", "NParkopt");
+var yesOptionNPark = document.createTextNode("Yes");
+yesNPark.appendChild(yesOptionNPark);
+nParkSelect.appendChild(yesNPark);
+var noNPark = document.createElement("option");
+noNPark.setAttribute("class", "NParkopt");
+var noOptionNPark = document.createTextNode("No");
+noNPark.appendChild(noOptionNPark);
+nParkSelect.appendChild(noNPark);
+
+
 const hMap = new Map(); //creating hashmap
 
 const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139a3035-e624-4f56-b63f-89ae28d4ae4c&limit=5000'
@@ -125,6 +145,7 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           distSort.addEventListener("click",function(){ distSortHandler() });
           priceSort.addEventListener("click",function(){ priceSortHandler() });
           slotSort.addEventListener("click",function(){ slotSortHandler() });
+          nParkSelect.addEventListener("change",function(){ nParkSelectSortHandler() });
 
           //creating 3diff divs-header, body, footer + the lines in between
           const header = document.createElement('div');
@@ -322,6 +343,46 @@ const api_url = 'https://data.gov.sg/api/action/datastore_search?resource_id=139
           container.appendChild(cardArray[u]);
         }   
       }
+
+      function nParkSelectSortHandler(){
+        if(nParkSelect.value=="Yes")
+        {
+          container.innerHTML = '';
+          for (let u=0; u<cArrayCount;u++){
+            let cnum1=cardArray[u].getAttribute('id');
+            let j1=tempcarparkindexhash.get(cnum1)
+            if ( data.result.records[j1].night_parking == "YES"){
+              container.appendChild(cardArray[u]);
+            } 
+          }
+          for (let u=0; u<cArrayCount;u++){
+            let cnum1=cardArray[u].getAttribute('id');
+            let j1=tempcarparkindexhash.get(cnum1)
+            if (data.result.records[j1].night_parking == "NO"){
+              container.appendChild(cardArray[u]);
+            } 
+          }
+        }
+        else
+        {
+          container.innerHTML = '';
+          for (let u=0; u<cArrayCount;u++){
+            let cnum1=cardArray[u].getAttribute('id');
+            let j1=tempcarparkindexhash.get(cnum1)
+            if ( data.result.records[j1].night_parking == "NO"){
+              container.appendChild(cardArray[u]);
+            } 
+          }
+          for (let u=0; u<cArrayCount;u++){
+            let cnum1=cardArray[u].getAttribute('id');
+            let j1=tempcarparkindexhash.get(cnum1)
+            if (data.result.records[j1].night_parking == "YES"){
+              container.appendChild(cardArray[u]);
+            } 
+          }
+        }
+      }
+
     }   
     request.send();
   }
