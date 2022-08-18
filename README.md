@@ -1,14 +1,1 @@
-# WhereToPark
-
-TODO
-- LoginPage
-- RegisterPage
-- UserAccountPage
-- Finish sidebar
-- Filter function for sidebar
-- Compare function for sidebar
-- Calculate price for sidebar
-- Change top right depending on Guest or User (E.g. Sign In vs Hello Guest & Sign out)
-
-- Do test cases
-- Update report with test case section + remove some parts
+WhereToPark is a web application that enables drivers to effortlessly locate convenient car park locations in close proximity to their destinations. The web application will be furnished with other useful information such as parking rates, number of available lots and height limit of the car parks for users to make an informed decision. WhereToPark utilizes data from Google Maps and Data.gov.sg to enable our users to locate any car park within Singapore.
